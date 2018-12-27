@@ -49,14 +49,17 @@ class ScheduleForm(View):
             umbrella = Product.objects.get(number="2")
         elif get_um == "輕量直傘":
             umbrella = Product.objects.get(number="3")
-        component_number_list = []
+        component_tree_list = []
         material_list = []
+        handle, nest, bone, stick, surface = None, None, None, None, None
         plastic = 0
         frp = 0
         fabric = 0
         plastic_q = 0
         for component in umbrella.components_required.all():
-            component_number_list.append([component.name, component.number_needed, component.weight])
+            component_wanted = component.number_needed*num
+            component_quan = component_wanted - component.inventory
+            component_tree_list.append([component.name, component.number_needed, component.weight, component_wanted, component.inventory, component_quan])
             if component.required_material not in material_list:
                 material_list.append(component.required_material)
             if component.required_material.name == "塑膠":
@@ -72,5 +75,5 @@ class ScheduleForm(View):
         fabric = fabric * num
         plastic_q = plastic - Material.objects.get(name="塑膠").inventory
         return render(request, 'modules/inventory/schedule_form.html',
-            {'component_number_list': component_number_list, 'material_list': material_list, 'plastic': plastic, 
-            'frp': frp, 'fabric': fabric, 'name': get_um, 'p_quan': plastic_q})
+            {'component_tree_list': component_tree_list, 'material_list': material_list, 'plastic': plastic, 
+            'frp': frp, 'fabric': fabric, 'name': get_um, 'p_quan': plastic_q, 'handle': handle})

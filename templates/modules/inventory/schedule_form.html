@@ -14,7 +14,7 @@
 </form>
 <br>
 <br>
-{% if component_number_list %}
+{% if component_tree_list %}
     {% comment %} {% for item in component_number_list %}
         <p>{{ item.0 }}: {{ item.1 }}</p>
     {% endfor %} {% endcomment %}
@@ -24,13 +24,19 @@
             <li>
             <a href="#">{{ name }}</a>
                 <ul>
-                {% for item in component_number_list %}
+                {% for item in component_tree_list %}
                     <li>
                         <a href="#">{{ item.0 }}: {{ item.1 }}單位&nbsp;&nbsp;&nbsp;重量: {{item.2}}g</a>
                     </li>
                 {% endfor %}
             </li>
         </ul>
+    </div>
+    
+    <div style="clear: left; padding-top:50px;">
+        {% for item in component_tree_list %}
+            <p>{{ item.0 }}: {{ item.3 }}單位 存貨: {{ item.4 }}g {% if item.5 > 0 %}不足: {{ item.5 }}g{% endif %}</p> 
+        {% endfor %}
     </div>
     <div style="clear: left; padding-top:50px;">
         <p>{{ material_list.0 }}: {{ plastic }}g 存貨: {{ material_list.0.inventory }}g 不足: {{ p_quan }}g</p> 
