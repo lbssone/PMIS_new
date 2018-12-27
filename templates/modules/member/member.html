@@ -1,0 +1,63 @@
+{% extends 'base/layout.html' %}
+
+{% block main %}
+{% for member in member_list %}
+    <table class="ui celled table">
+        <thead>
+          <tr class="center aligned">
+              <th>Name</th>
+              <th>Member Number</th>
+              <th>Gender</th>
+              <th>Age</th>
+              <th>Cellphone Number</th>
+              <th>Email</th>
+              <th>Occupation</th>
+              <th>Working/School Address</th>
+              <th>Home Address</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="center aligned">
+            <td>{{member.name}}</td>
+            <td>{{member.member_number}}</td>
+            <td>{{member.gender}}</td>
+            <td>{{member.age}}</td>
+            <td>{{member.cellphone_number}}</td>
+            <td>{{member.email}}</td>
+            <td>{{member.occupation}}</td>
+            <td>{{member.working_school_address}}</td>
+            <td>{{member.home_address}}</td>
+          </tr>
+        </tbody>
+      </table>
+{% endfor %}
+{% comment %} <div id="container"></div>
+  <script>
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Historic World Population by Region'
+        },
+        xAxis: {
+            categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania']
+        },
+        series: [{
+            name: 'Year 1800',
+            data: [107, 31, 635, 203, 2]
+        }, {
+            name: 'Year 1900',
+            data: [133, 156, 947, 408, 6]
+        }, {
+            name: 'Year 2012',
+            data: [1052, 954, 4250, 740, 38]
+        }]
+    });
+  </script> {% endcomment %}
+<div id="container"></div>
+<script>
+  Highcharts.chart('container', {{ chart|safe }});
+</script>
+{% endblock %}

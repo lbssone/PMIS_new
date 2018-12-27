@@ -1,0 +1,41 @@
+{% extends 'base/layout.html' %}
+
+{% block main %}
+
+<form action="{% url 'inventory:schedule_form' %}" method="POST">{% csrf_token %}
+    <select name="umbrella">
+        <option value="抗UV直傘">抗UV直傘</option>
+        <option value="防風直傘">防風直傘</option>
+        <option value="輕量直傘">輕量直傘</option>
+    </select>
+    {% comment %} <label for="number">抗UV直傘:</label> {% endcomment %}
+    <input type="text" id="name" name="num_of_umbrella">
+    <button type="submit">送出</button>
+</form>
+<br>
+<br>
+{% if component_number_list %}
+    {% comment %} {% for item in component_number_list %}
+        <p>{{ item.0 }}: {{ item.1 }}</p>
+    {% endfor %} {% endcomment %}
+    
+    <div style="display:block" class="tree">
+        <ul>
+            <li>
+            <a href="#">{{ name }}</a>
+                <ul>
+                {% for item in component_number_list %}
+                    <li>
+                        <a href="#">{{ item.0 }}: {{ item.1 }}單位&nbsp;&nbsp;&nbsp;重量: {{item.2}}g</a>
+                    </li>
+                {% endfor %}
+            </li>
+        </ul>
+    </div>
+    <div style="clear: left; padding-top:50px;">
+        <p>{{ material_list.0 }}: {{ plastic }}g <input type="button" class="ui red button" value="檢查存貨"></p> 
+        <p>{{ material_list.1 }}: {{ frp }}g</p>
+        <p>{{ material_list.2 }}: {{ fabric }}g</p>
+    </div>
+{% endif %}
+{% endblock %}
