@@ -54,6 +54,7 @@ class ScheduleForm(View):
         plastic = 0
         frp = 0
         fabric = 0
+        plastic_q = 0
         for component in umbrella.components_required.all():
             component_number_list.append([component.name, component.number_needed, component.weight])
             if component.required_material not in material_list:
@@ -69,4 +70,7 @@ class ScheduleForm(View):
         plastic = plastic * num 
         frp = frp * num 
         fabric = fabric * num
-        return render(request, 'modules/inventory/schedule_form.html', {'component_number_list': component_number_list, 'material_list': material_list, 'plastic': plastic, 'frp': frp, 'fabric': fabric, 'name': get_um})
+        plastic_q = plastic - Material.objects.get(name="塑膠").inventory
+        return render(request, 'modules/inventory/schedule_form.html',
+            {'component_number_list': component_number_list, 'material_list': material_list, 'plastic': plastic, 
+            'frp': frp, 'fabric': fabric, 'name': get_um, 'p_quan': plastic_q})
