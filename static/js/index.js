@@ -1,6 +1,4 @@
-// $(document).ready(function(){
-//     $('.dropdown-trigger').dropdown();
-//  });
-// $('.ui.pointing.dropdown')
-//   .dropdown()
-// ;
+function displayMaterial() {
+    var plastic = document.getElementById("material");
+    plastic.style.display = "block";  	 
+}

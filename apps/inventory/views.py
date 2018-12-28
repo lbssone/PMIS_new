@@ -51,6 +51,7 @@ class ScheduleForm(View):
             umbrella = Product.objects.get(number="3")
         component_tree_list = []
         material_list = []
+        components_quan = 0
         handle, nest, bone, stick, surface = None, None, None, None, None
         plastic = 0
         frp = 0
@@ -63,17 +64,22 @@ class ScheduleForm(View):
             if component.required_material not in material_list:
                 material_list.append(component.required_material)
             if component.required_material.name == "塑膠":
-                plastic += component.weight
+                plastic += (component.weight * component_quan)
             if component.required_material.name == "玻璃纖維(FRP)":
-                frp += component.weight
+                frp += (component.weight * component_quan)
             if component.required_material.name == "黑膠傘布":
-                fabric += component.weight
+                fabric += (component.weight * component_quan)
+                fabric_q = fabric - Material.objects.get(name="黑膠傘布").inventory
             if component.required_material.name == "防潑水傘布":
-                fabric += component.weight
-        plastic = plastic * num 
-        frp = frp * num 
-        fabric = fabric * num
+                fabric += (component.weight * component_quan)
+                fabric_q = fabric - Material.objects.get(name="防潑水傘布").inventory
+        # plastic = plastic * num 
+        # frp = frp * num 
+        # fabric = fabric * num
         plastic_q = plastic - Material.objects.get(name="塑膠").inventory
+        frp_q = frp - Material.objects.get(name="玻璃纖維(FRP)").inventory
         return render(request, 'modules/inventory/schedule_form.html',
             {'component_tree_list': component_tree_list, 'material_list': material_list, 'plastic': plastic, 
-            'frp': frp, 'fabric': fabric, 'name': get_um, 'p_quan': plastic_q, 'handle': handle})
+            'frp': frp, 'fabric': fabric, 'name': get_um, 'p_quan': plastic_q, 'frp_quan': frp_q, 'fabric_quan': fabric_q})
+
+###問題: 現在得到的每個原物料是一把傘共需多少，但應該是要分開，ex:握把需要的塑膠*公克數+下巢需要的塑膠*公克數，而非用一把傘需要的塑膠來乘

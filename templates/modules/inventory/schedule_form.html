@@ -26,7 +26,7 @@
                 <ul>
                 {% for item in component_tree_list %}
                     <li>
-                        <a href="#">{{ item.0 }}: {{ item.1 }}單位&nbsp;&nbsp;&nbsp;重量: {{item.2}}g</a>
+                        <a href="#">{{ item.0 }}: {{ item.1 }}單位&nbsp;&nbsp;&nbsp;單位重量: {{item.2}}g</a>
                     </li>
                 {% endfor %}
             </li>
@@ -35,13 +35,16 @@
     
     <div style="clear: left; padding-top:50px;">
         {% for item in component_tree_list %}
-            <p>{{ item.0 }}: {{ item.3 }}單位 存貨: {{ item.4 }}g {% if item.5 > 0 %}不足: {{ item.5 }}g{% endif %}</p> 
+            <p>{{ item.0 }}: {{ item.3 }}單位 存貨: {{ item.4 }}單位 {% if item.5 > 0 %}不足: {{ item.5 }}單位{% endif %}</p> 
         {% endfor %}
     </div>
-    <div style="clear: left; padding-top:50px;">
+    <br>
+    <button class="ui red button" onclick="displayMaterial()">檢查原物料存貨</button>
+    <div style="clear: left; padding-top:20px; display:none;" id="material">
         <p>{{ material_list.0 }}: {{ plastic }}g 存貨: {{ material_list.0.inventory }}g 不足: {{ p_quan }}g</p> 
-        <p>{{ material_list.1 }}: {{ frp }}g</p>
-        <p>{{ material_list.2 }}: {{ fabric }}g</p>
+        <p>{{ material_list.1 }}: {{ frp }}g 存貨: {{ material_list.1.inventory }}g 不足: {{ frp_quan }}g</p>
+        <p>{{ material_list.2 }}: {{ fabric }}g 存貨: {{ material_list.2.inventory }}g 不足: {{ fabric_quan }}g</p>
     </div>
 {% endif %}
+
 {% endblock %}
