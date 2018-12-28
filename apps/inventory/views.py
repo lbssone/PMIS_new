@@ -51,8 +51,6 @@ class ScheduleForm(View):
             umbrella = Product.objects.get(number="3")
         component_tree_list = []
         material_list = []
-        components_quan = 0
-        handle, nest, bone, stick, surface = None, None, None, None, None
         plastic = 0
         frp = 0
         fabric = 0
@@ -82,4 +80,3 @@ class ScheduleForm(View):
             {'component_tree_list': component_tree_list, 'material_list': material_list, 'plastic': plastic, 
             'frp': frp, 'fabric': fabric, 'name': get_um, 'p_quan': plastic_q, 'frp_quan': frp_q, 'fabric_quan': fabric_q})
 
-###問題: 現在得到的每個原物料是一把傘共需多少，但應該是要分開，ex:握把需要的塑膠*公克數+下巢需要的塑膠*公克數，而非用一把傘需要的塑膠來乘
