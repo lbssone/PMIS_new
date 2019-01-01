@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
+from datetime import datetime, timedelta
 
 from .models import Product, Component, Material
 
@@ -40,8 +41,10 @@ class ScheduleForm(View):
         return render(request, 'modules/inventory/schedule_form.html')
 
     def post(self, request):
-        get_um = request.POST.get('umbrella')
-        num = int(request.POST.get('num_of_umbrella'))
+        get_um = self.request.POST.get('umbrella')
+        num = int(self.request.POST.get('num_of_umbrella'))
+        date = self.request.POST.get('date')
+        date_1 = datetime.strptime(date, "%Y-%m-%d").date()
         umbrella = ""
         if get_um == "抗UV直傘":
             umbrella = Product.objects.get(number="1")
@@ -58,7 +61,9 @@ class ScheduleForm(View):
         for component in umbrella.components_required.all():
             component_wanted = component.number_needed*num
             component_quan = component_wanted - component.inventory
-            component_tree_list.append([component.name, component.number_needed, component.weight, component_wanted, component.inventory, component_quan])
+            date_2 = str(date_1 - timedelta(days=component.lead_time))
+            # component_tree_list.append([component.name, component.number_needed, component.weight, component_wanted, component.inventory, component_quan])
+            component_tree_list.append([component, component_wanted, component_quan, date_2])
             if component.required_material not in material_list:
                 material_list.append(component.required_material)
             if component.required_material.name == "塑膠":
@@ -77,6 +82,6 @@ class ScheduleForm(View):
         plastic_q = plastic - Material.objects.get(name="塑膠").inventory
         frp_q = frp - Material.objects.get(name="玻璃纖維(FRP)").inventory
         return render(request, 'modules/inventory/schedule_form.html',
-            {'component_tree_list': component_tree_list, 'material_list': material_list, 'plastic': plastic, 
-            'frp': frp, 'fabric': fabric, 'name': get_um, 'p_quan': plastic_q, 'frp_quan': frp_q, 'fabric_quan': fabric_q})
+            {'name': get_um, 'num': num, 'date': date, 'component_tree_list': component_tree_list, 'material_list': material_list, 'plastic': plastic, 
+            'frp': frp, 'fabric': fabric, 'p_quan': plastic_q, 'frp_quan': frp_q, 'fabric_quan': fabric_q,})
 

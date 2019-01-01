@@ -3,13 +3,14 @@
 {% block main %}
 
 <form action="{% url 'inventory:schedule_form' %}" method="POST">{% csrf_token %}
+    <input id="date" type="date" name="date">
     <select name="umbrella">
         <option value="抗UV直傘">抗UV直傘</option>
         <option value="防風直傘">防風直傘</option>
         <option value="輕量直傘">輕量直傘</option>
     </select>
     {% comment %} <label for="number">抗UV直傘:</label> {% endcomment %}
-    <input type="text" id="name" name="num_of_umbrella">
+    <input type="text" id="num" name="num_of_umbrella">
     <button type="submit">送出</button>
 </form>
 <br>
@@ -18,7 +19,7 @@
     {% comment %} {% for item in component_number_list %}
         <p>{{ item.0 }}: {{ item.1 }}</p>
     {% endfor %} {% endcomment %}
-    
+    <p>{{ date }} {{ name }} {{ num }}支</p>
     <div style="display:block" class="tree">
         <ul>
             <li>
@@ -35,7 +36,7 @@
     
     <div style="clear: left; padding-top:50px;">
         {% for item in component_tree_list %}
-            <p>{{ item.0 }}: {{ item.3 }}單位 存貨: {{ item.4 }}單位 {% if item.5 > 0 %}不足: {{ item.5 }}單位{% endif %}</p> 
+            <p>{{ item.0.name }}: {{ item.1 }}單位 存貨: {{ item.0.inventory }}單位 {% if item.2 > 0 %}不足: {{ item.2 }}單位 應於 {{ item.3 }} 生產 {% else %}存貨充足{% endif %}</p> 
         {% endfor %}
     </div>
     <br>
