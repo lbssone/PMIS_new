@@ -2,24 +2,11 @@ from django.db import models
 import math
 
 # Create your models here.        
-        
-class Material(models.Model):
-    number = models.PositiveIntegerField(blank=True, null=True)
-    name = models.CharField(max_length=30, null=True)
-    inventory = models.PositiveIntegerField(blank=True, null=True)
-    level =  models.PositiveIntegerField(blank=True, null=True)
-    # material_detail = models.ForeignKey(Material_detail, on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return self.name
-
-
 class Material_detail(models.Model):
-    material_name = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=30, null=True)
     year_demand = models.PositiveIntegerField(blank=True, null=True)
     holding_cost = models.PositiveIntegerField(blank=True, null=True)
-    setup_cost = models.PositiveIntegerField(blank=True, null=True)
+    ordering_cost = models.PositiveIntegerField(blank=True, null=True)
     usage_rate = models.PositiveIntegerField(blank=True, null=True)
     lead_time = models.PositiveIntegerField(blank=True, null=True)
     eoq = models.DecimalField(
@@ -34,12 +21,45 @@ class Material_detail(models.Model):
     )
 
     def __str__(self):
-        return self.material_name.name
+        return self.name
 
     def save(self, *args, **kwargs):
-        self.eoq = math.sqrt(2 * self.year_demand * self.setup_cost / self.holding_cost)
+        self.eoq = math.sqrt(2 * self.year_demand * self.ordering_cost / self.holding_cost)
         self.rop = self.usage_rate * self.lead_time
-        super(Material_detail, self).save(*args, **kwargs)
+        super(Material_detail, self).save(*args, **kwargs)        
+
+
+class Material(models.Model):
+    number = models.PositiveIntegerField(blank=True, null=True)
+    name = models.CharField(max_length=30, null=True)
+    inventory = models.PositiveIntegerField(blank=True, null=True)
+    level =  models.PositiveIntegerField(blank=True, null=True)
+    material_detail = models.ForeignKey(Material_detail, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Component_detail(models.Model):
+    name = models.CharField(max_length=30, null=True)
+    year_demand = models.PositiveIntegerField(blank=True, null=True)
+    holding_cost = models.PositiveIntegerField(blank=True, null=True)
+    setup_cost = models.PositiveIntegerField(blank=True, null=True)
+    produce_rate = models.PositiveIntegerField(blank=True, null=True)
+    usage_rate = models.PositiveIntegerField(blank=True, null=True)
+    lead_time = models.PositiveIntegerField(blank=True, null=True)
+    epq = models.DecimalField(
+        max_digits=10,
+        decimal_places=0,
+        blank=True, null=True
+    )
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.epq = math.sqrt((2 * self.year_demand * self.setup_cost * self.produce_rate) / (self.holding_cost * (self.produce_rate - self.usage_rate)))
+        super(Component_detail, self).save(*args, **kwargs)
 
 
 class Component(models.Model):
@@ -50,31 +70,11 @@ class Component(models.Model):
     level =  models.PositiveIntegerField(blank=True, null=True)
     required_material = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True)
     weight = models.PositiveIntegerField(blank=True, null=True)
-    lead_time = models.PositiveIntegerField(blank=True, null=True)
+    component_detail = models.ForeignKey(Component_detail, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
         return self.name
 
-
-class Component_detail(models.Model):
-    component_name = models.ForeignKey(Component, on_delete=models.SET_NULL, null=True)
-    year_demand = models.PositiveIntegerField(blank=True, null=True)
-    holding_cost = models.PositiveIntegerField(blank=True, null=True)
-    setup_cost = models.PositiveIntegerField(blank=True, null=True)
-    produce_rate = models.PositiveIntegerField(blank=True, null=True)
-    usage_rate = models.PositiveIntegerField(blank=True, null=True)
-    epq = models.DecimalField(
-        max_digits=10,
-        decimal_places=0,
-        blank=True, null=True
-    )
-
-    def __str__(self):
-        return self.component_name.name
-
-    def save(self, *args, **kwargs):
-        self.epq = math.sqrt((2 * self.year_demand * self.setup_cost * self.produce_rate) / (self.holding_cost * (self.produce_rate - self.usage_rate)))
-        super(Component_detail, self).save(*args, **kwargs)
 
 class Product(models.Model):
     number = models.PositiveIntegerField(blank=True, null=True)

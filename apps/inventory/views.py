@@ -57,31 +57,49 @@ class ScheduleForm(View):
         plastic = 0
         frp = 0
         fabric = 0
-        plastic_q = 0
+        plastic_date_lst = []
+        frp_date_lst = []
+        fabric_date = None
         for component in umbrella.components_required.all():
             component_wanted = component.number_needed*num
-            component_quan = component_wanted - component.inventory
-            date_2 = str(date_1 - timedelta(days=component.lead_time))
+            component_diff = component_wanted - component.inventory
+            produce_date = date_1 - timedelta(days=component.component_detail.lead_time)
+            produce_date_str = str(date_1 - timedelta(days=component.component_detail.lead_time))
             # component_tree_list.append([component.name, component.number_needed, component.weight, component_wanted, component.inventory, component_quan])
-            component_tree_list.append([component, component_wanted, component_quan, date_2])
+            component_tree_list.append([component, component_wanted, component_diff, produce_date_str])
             if component.required_material not in material_list:
                 material_list.append(component.required_material)
             if component.required_material.name == "塑膠":
-                plastic += (component.weight * component_quan)
+                if component_diff > 0:
+                    plastic += (component.weight * component_diff)
+                else:
+                    plastic += 0
+                plastic_date_lst.append(produce_date)
             if component.required_material.name == "玻璃纖維(FRP)":
-                frp += (component.weight * component_quan)
-            if component.required_material.name == "黑膠傘布":
-                fabric += (component.weight * component_quan)
-                fabric_q = fabric - Material.objects.get(name="黑膠傘布").inventory
-            if component.required_material.name == "防潑水傘布":
-                fabric += (component.weight * component_quan)
-                fabric_q = fabric - Material.objects.get(name="防潑水傘布").inventory
+                if component_diff > 0:
+                    frp += (component.weight * component_diff)
+                else:
+                    frp += 0
+                frp_date_lst.append(produce_date)
+            if component.required_material.name == "黑膠傘布" or component.required_material.name == "防潑水傘布":
+                fabric += (component.weight * component_diff)
+                fabric_q = fabric - Material.objects.get(name=component.required_material.name).inventory
+                fabric_date = str(produce_date - timedelta(days=Material.objects.get(name=component.required_material.name).material_detail.lead_time))
+            # if component.required_material.name == "防潑水傘布":
+            #     fabric += (component.weight * component_diff)
+            #     abs_fabric = abs(fabric)
+            #     fabric_q = fabric - Material.objects.get(name="防潑水傘布").inventory
+            #     fabric_date = str(produce_date - timedelta(days=Material.objects.get(name="防潑水傘布").material_detail.lead_time))
         # plastic = plastic * num 
         # frp = frp * num 
         # fabric = fabric * num
         plastic_q = plastic - Material.objects.get(name="塑膠").inventory
         frp_q = frp - Material.objects.get(name="玻璃纖維(FRP)").inventory
+        plastic_date = str(min(plastic_date_lst) - timedelta(days=Material.objects.get(name="塑膠").material_detail.lead_time))
+        frp_date = str(min(frp_date_lst) - timedelta(days=Material.objects.get(name="玻璃纖維(FRP)").material_detail.lead_time))
         return render(request, 'modules/inventory/schedule_form.html',
-            {'name': get_um, 'num': num, 'date': date, 'component_tree_list': component_tree_list, 'material_list': material_list, 'plastic': plastic, 
-            'frp': frp, 'fabric': fabric, 'p_quan': plastic_q, 'frp_quan': frp_q, 'fabric_quan': fabric_q,})
+            {'name': get_um, 'num': num, 'date': date, 'component_tree_list': component_tree_list, 
+            'material_list': material_list, 'plastic': plastic, 'frp': frp, 'fabric': fabric, 
+            'p_quan': plastic_q, 'frp_quan': frp_q, 'fabric_quan': fabric_q, 'plastic_date': plastic_date, 
+            'frp_date': frp_date, 'fabric_date': fabric_date,})
 

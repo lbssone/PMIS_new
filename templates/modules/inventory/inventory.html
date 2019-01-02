@@ -25,7 +25,9 @@
         <h1 class="ui dividing header">Materials</h1>
         <div class="ui horizontal divider"></div>
             {% for material in material_list %}
-                <p>{{ material.name }}: {{ material.inventory }}</p>
+                <p>{{ material.name }}: {{ material.inventory }} 
+                {% if material.inventory < material.material_detail.eoq %}
+                <button class="ui red button">已達再訂購點！</button>{% endif %}</p>
             {% endfor %}
     </div>
 </div>

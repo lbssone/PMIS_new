@@ -2,50 +2,156 @@
 
 {% block main %}
 
-<form action="{% url 'inventory:schedule_form' %}" method="POST">{% csrf_token %}
-    <input id="date" type="date" name="date">
-    <select name="umbrella">
-        <option value="抗UV直傘">抗UV直傘</option>
-        <option value="防風直傘">防風直傘</option>
-        <option value="輕量直傘">輕量直傘</option>
-    </select>
-    {% comment %} <label for="number">抗UV直傘:</label> {% endcomment %}
-    <input type="text" id="num" name="num_of_umbrella">
-    <button type="submit">送出</button>
+<form action="{% url 'inventory:schedule_form' %}" method="POST" class="ui form">{% csrf_token %}
+    <div class="three fields">
+        <div class="three wide field">
+            <input id="date" type="date" name="date">
+        </div>
+        <div class="two wide field">
+            <select class="ui fluid search dropdown" name="umbrella">
+                <option value="抗UV直傘">抗UV直傘</option>
+                <option value="防風直傘">防風直傘</option>
+                <option value="輕量直傘">輕量直傘</option>
+            </select>
+        </div>
+        {% comment %} <label for="number">抗UV直傘:</label> {% endcomment %}
+        <div class="two wide field">
+            <input type="text" id="num" name="num_of_umbrella">
+        </div>
+        <div class="field">
+            <button type="submit" class="ui button">送出</button>
+        </div>
+    </div>
 </form>
-<br>
 <br>
 {% if component_tree_list %}
     {% comment %} {% for item in component_number_list %}
         <p>{{ item.0 }}: {{ item.1 }}</p>
     {% endfor %} {% endcomment %}
-    <p>{{ date }} {{ name }} {{ num }}支</p>
+    <p id="top">{{ date }} {{ name }} {{ num }}支</p>
     <div style="display:block" class="tree">
         <ul>
-            <li>
-            <a href="#">{{ name }}</a>
-                <ul>
-                {% for item in component_tree_list %}
-                    <li>
-                        <a href="#">{{ item.0 }}: {{ item.1 }}單位&nbsp;&nbsp;&nbsp;單位重量: {{item.2}}g</a>
-                    </li>
-                {% endfor %}
-            </li>
+            <div>
+                <li>
+                    <a href="#">{{ name }}</a>
+                    <ul>
+                    {% for item in component_tree_list %}
+                        <li>
+                            <a href="#">{{ item.0 }}: {{ item.1 }}單位<br>單位重量: {{item.0.weight}}g</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </li>
+            </div>
         </ul>
     </div>
     
     <div style="clear: left; padding-top:50px;">
-        {% for item in component_tree_list %}
-            <p>{{ item.0.name }}: {{ item.1 }}單位 存貨: {{ item.0.inventory }}單位 {% if item.2 > 0 %}不足: {{ item.2 }}單位 應於 {{ item.3 }} 生產 {% else %}存貨充足{% endif %}</p> 
-        {% endfor %}
+        <table class="ui teal table">
+            <thead>
+                <tr class="center aligned">
+                    <th>所需零件</th>
+                    <th>需求量</th>
+                    <th>目前存貨量</th>
+                    <th>存貨狀況</th>
+                    <th>生產建議</th>
+                    <th>最佳生產批量</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in component_tree_list %}
+                <tr class="center aligned">
+                    <td>{{ item.0.name }}</td>
+                    <td>{{ item.1 }}單位</td>
+                    <td>{{ item.0.inventory }}單位</td>
+                    {% if item.2 > 0 %}
+                    <td class="negative">不足{{ item.2 }}單位</td>
+                    <td>應於{{ item.3 }}生產</td>
+                    <td>{{ item.0.component_detail.epq }}</td>
+                    {% else %}
+                    <td class="positive">存貨充足</td>
+                    <td>暫不需生產</td>
+                    <td></td>
+                    {% endif %} 
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
     <br>
     <button class="ui red button" onclick="displayMaterial()">檢查原物料存貨</button>
     <div style="clear: left; padding-top:20px; display:none;" id="material">
-        <p>{{ material_list.0 }}: {{ plastic }}g 存貨: {{ material_list.0.inventory }}g 不足: {{ p_quan }}g</p> 
-        <p>{{ material_list.1 }}: {{ frp }}g 存貨: {{ material_list.1.inventory }}g 不足: {{ frp_quan }}g</p>
-        <p>{{ material_list.2 }}: {{ fabric }}g 存貨: {{ material_list.2.inventory }}g 不足: {{ fabric_quan }}g</p>
+        <table class="ui blue table">
+            <thead>
+                <tr class="center aligned">
+                    <th>不足零件所需原物料</th>
+                    <th>需求量</th>
+                    <th>目前存貨量</th>
+                    <th>存貨狀況</th>
+                    <th>訂貨建議</th>
+                    <th>最佳訂購量</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="center aligned">
+                {% if plastic > material_list.0.inventory %}
+                    <td>{{ material_list.0 }}</td>
+                    <td>{{ plastic }}g</td>
+                    <td>{{ material_list.0.inventory }}g</td>
+                    <td class="negative">不足{{ p_quan }}g</td>
+                    <td>應於{{ plastic_date }}訂貨</td>
+                    <td>{{ material_list.0.material_detail.eoq }}</td>
+                {% else %}
+                    <td>{{ material_list.0 }}</td>
+                    <td>{{ plastic }}g</td>
+                    <td>{{ material_list.0.inventory }}g</td>
+                    <td class="positive">存貨充足</td>
+                    <td>暫不需訂貨</td>
+                    <td></td>
+                {% endif %}
+                </tr>
+                <tr class="center aligned">
+                {% if frp > material_list.1.inventory %}
+                    <td>{{ material_list.1 }}</td>
+                    <td>{{ frp }}g</td>
+                    <td>{{ material_list.1.inventory }}g</td>
+                    <td class="negative">不足{{ frp_quan }}g</td>
+                    <td>應於{{ frp_date }}訂貨</td>
+                    <td>{{ material_list.1.material_detail.eoq }}</td>
+                {% else %}
+                    <td>{{ material_list.1 }}</td>
+                    <td>{{ frp }}g</td>
+                    <td>{{ material_list.1.inventory }}g</td>
+                    <td class="positive">存貨充足</td>
+                    <td>暫不需訂貨</td>
+                    <td></td>
+                {% endif %}
+                </tr>
+                <tr class="center aligned">
+                {% if fabric > material_list.2.inventory %}
+                    <td>{{ material_list.2 }}</td>
+                    <td>{{ fabric }}g</td>
+                    <td>{{ material_list.2.inventory }}g</td>
+                    <td class="negative">不足{{ fabric_quan }}g</td>
+                    <td>應於{{ fabric_date }}訂貨</td>
+                    <td>{{ material_list.2.material_detail.eoq }}</td>
+                {% else %}
+                    <td>{{ material_list.2 }}</td>
+                    <td>{{ fabric }}g</td>
+                    <td>{{ material_list.2.inventory }}g</td>
+                    <td class="positive">存貨充足</td>
+                    <td>暫不需訂貨</td>
+                    <td></td>
+                {% endif %}
+                </tr>
+            </tbody>
+        </table>    
     </div>
 {% endif %}
+{% comment %} <script>
+    $('.ui.dropdown') .dropdown();
+</script> {% endcomment %}
+{% load static %}
+<script src="{% static 'js/dropdown.js' %}"></script>
 
 {% endblock %}
