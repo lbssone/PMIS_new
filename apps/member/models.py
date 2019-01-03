@@ -50,8 +50,8 @@ class Transaction(models.Model):
     @staticmethod
     def calculate_total_price(self):
         t_price = 0
-        for product in self.products.all():
-            t_price += product.price
+        for tran in self.transaction_product_set.all():
+            t_price += tran.price
         return t_price
         # return self.product.all().aggregate(total_price=Sum('price'))['total_price']
 
