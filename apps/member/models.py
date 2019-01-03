@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Sum
+from apps.inventory.models import Product
 
 # Create your models here.
 class Member(models.Model):
@@ -48,3 +50,38 @@ class Member(models.Model):
     @property
     def name(self):
         return '{} {}'.format(self.first_name, self.last_name)
+
+
+class Transaction_product(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    price = models.PositiveIntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return self.product.name
+    
+    def save(self, *args, **kwargs):
+        self.price = self.product.price
+        super(Transaction_product, self).save(*args, **kwargs)
+
+
+class Transaction(models.Model):
+    member = models.ForeignKey(Member, on_delete=models.SET_NULL, null=True)
+    date = models.DateField(auto_now=False, auto_now_add=False, null=True)
+    products = models.ManyToManyField(Transaction_product, blank=True)
+    total_price = models.PositiveIntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return self.member.name
+
+    @staticmethod
+    def calculate_total_price(self):
+        t_price = 0
+        for product in self.products.all():
+            t_price += product.price
+        return t_price
+        # return self.product.all().aggregate(total_price=Sum('price'))['total_price']
+
+    def save(self, *args, **kwargs):
+        self.total_price = Transaction.calculate_total_price(self)
+        super(Transaction, self).save(*args, **kwargs)
+

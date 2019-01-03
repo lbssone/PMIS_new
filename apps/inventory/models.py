@@ -105,6 +105,7 @@ class Product(models.Model):
         null=True,
     )
     inventory = models.PositiveIntegerField(blank=True, null=True)
+    price = models.PositiveIntegerField(blank=True, null=True)
     level =  models.PositiveIntegerField(blank=True, null=True)
     components_required = models.ManyToManyField(Component, blank=True)
 
