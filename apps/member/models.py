@@ -52,34 +52,36 @@ class Member(models.Model):
         return '{} {}'.format(self.first_name, self.last_name)
 
 
-# class Transaction(models.Model):
-#     member = models.ForeignKey(Member, on_delete=models.SET_NULL, null=True)
-#     date = models.DateField(auto_now=False, auto_now_add=False, null=True)
-#     products = models.ManyToManyField(Transaction_product, blank=True)
-#     total_price = models.PositiveIntegerField(null=True, blank=True)
+class Transaction(models.Model):
+    member = models.ForeignKey(Member, on_delete=models.SET_NULL, null=True)
+    date = models.DateField(auto_now=False, auto_now_add=False, null=True)
+    products = models.ManyToManyField(Product, through='Transaction_product')
+    total_price = models.PositiveIntegerField(null=True, blank=True)
 
-#     def __str__(self):
-#         return self.member.name
+    def __str__(self):
+        return '{} {}'.format(self.member.name, str(self.date))
 
-#     @staticmethod
-#     def calculate_total_price(self):
-#         t_price = 0
-#         for product in self.products.all():
-#             t_price += product.price
-#         return t_price
-#         # return self.product.all().aggregate(total_price=Sum('price'))['total_price']
+    # @staticmethod
+    # def calculate_total_price(self):
+    #     t_price = 0
+    #     for product in self.products.all():
+    #         t_price += product.price
+    #     return t_price
+    #     # return self.product.all().aggregate(total_price=Sum('price'))['total_price']
 
-#     def save(self, *args, **kwargs):
-#         self.total_price = Transaction.calculate_total_price(self)
-#         super(Transaction, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.total_price = Transaction.calculate_total_price(self)
+    #     super(Transaction, self).save(*args, **kwargs)
 
-# class Transaction_product(models.Model):
-#     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-#     price = models.PositiveIntegerField(null=True, blank=True)
+class Transaction_product(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(null=True)
+    price = models.PositiveIntegerField(null=True, blank=True)
 
-#     def __str__(self):
-#         return self.product.name
+    def __str__(self):
+        return self.transaction.member.name + " " + self.product.name
     
-#     def save(self, *args, **kwargs):
-#         self.price = self.product.price
-#         super(Transaction_product, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.price = self.product.price
+    #     super(Transaction_product, self).save(*args, **kwargs)
