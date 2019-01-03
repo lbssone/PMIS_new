@@ -75,7 +75,7 @@ class ScheduleForm(View):
                 else:
                     plastic += 0
                 plastic_date_lst.append(produce_date)
-            if component.required_material.name == "玻璃纖維(FRP)":
+            if component.required_material.name == "FRP":
                 if component_diff > 0:
                     frp += (component.weight * component_diff)
                 else:
@@ -94,9 +94,9 @@ class ScheduleForm(View):
         # frp = frp * num 
         # fabric = fabric * num
         plastic_q = plastic - Material.objects.get(name="塑膠").inventory
-        frp_q = frp - Material.objects.get(name="玻璃纖維(FRP)").inventory
+        frp_q = frp - Material.objects.get(name="FRP").inventory
         plastic_date = str(min(plastic_date_lst) - timedelta(days=Material.objects.get(name="塑膠").material_detail.lead_time))
-        frp_date = str(min(frp_date_lst) - timedelta(days=Material.objects.get(name="玻璃纖維(FRP)").material_detail.lead_time))
+        frp_date = str(min(frp_date_lst) - timedelta(days=Material.objects.get(name="FRP").material_detail.lead_time))
         return render(request, 'modules/inventory/schedule_form.html',
             {'name': get_um, 'num': num, 'date': date, 'component_tree_list': component_tree_list, 
             'material_list': material_list, 'plastic': plastic, 'frp': frp, 'fabric': fabric, 

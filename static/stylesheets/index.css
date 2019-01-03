@@ -10,6 +10,14 @@ nav #logo {
 	font-family: Microsoft JhengHei;
 }
 
+.ui.narrow.button {
+	padding: 0.3em 0.5em 0.3em 0.7em;
+}
+
+.ui.grid>.row {
+	padding-bottom: 0.3rem;
+}
+
 .ui.menu.c-font {
     font-family: Microsoft JhengHei;
     font-size: 1.2rem;

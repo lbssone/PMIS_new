@@ -37,7 +37,7 @@
                     <ul>
                     {% for item in component_tree_list %}
                         <li>
-                            <a href="#">{{ item.0 }}: {{ item.1 }}單位<br>單位重量: {{item.0.weight}}g</a>
+                            <a href="#">{{ item.0 }}: {{ item.0.number_needed }}單位<br>單位重量: {{item.0.weight}}g</a>
                         </li>
                     {% endfor %}
                     </ul>
