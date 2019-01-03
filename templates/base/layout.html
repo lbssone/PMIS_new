@@ -26,23 +26,12 @@
     {% include 'components/navbar.html'%}
     <div class="ui container">
         <main>
-{% comment %} <a id="prev" class="btn-floating btn-large waves-effect waves-light light-blue lighten-1"><i class="material-icons">arrow_back</i></a> {% endcomment %}
-{% comment %} <a class="btn-floating btn-large waves-effect waves-light light-blue lighten-1"><i class="material-icons">arrow_forward</i></a> {% endcomment %}
-
             {% block main %}
 
             {% endblock %}
         </main>
         {% block custom_script %}
         {% endblock %}
-{% comment %}    
-<script>
-    const prevButton = document.querySelector('#prev');
-    prevButton.addEventListener('click', (e) => {
-        history.back();
-    });
-</script>
-{% endcomment %}
     </div>
 </body>
 </html>

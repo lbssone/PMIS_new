@@ -139,7 +139,12 @@ class MemberList(View):
 
         chart = {
             'chart': {'type': 'column'},
-            'title': {'text': str(year) + '年 ' + str(month) + '月雨傘銷售分布'},
+            'title': {
+                'text': str(year) + '年 ' + str(month) + '月雨傘銷售分布',
+                'style': {
+                    'fontFamily': 'Microsoft JhengHei'
+                }
+            },
             'xAxis': {'categories': ['抗UV直傘', '抗UV自動摺傘', '抗UV手開摺傘']},
             # 'series': [uv_s, uv_au],
             'series': [{ 
