@@ -5,8 +5,8 @@ from apps.inventory.models import Product
 # Create your models here.
 class Member(models.Model):
     member_name = models.CharField(max_length=20, null=True)
-    first_name = models.CharField(max_length=30, null=True)
-    last_name = models.CharField(max_length=30, null=True)
+    # first_name = models.CharField(max_length=30, null=True)
+    # last_name = models.CharField(max_length=30, null=True)
     AGE=(
         ('0-17','17歲以下'),
         ('18-30','18-30歲'),
@@ -32,11 +32,11 @@ class Member(models.Model):
     dwelling = models.CharField(max_length=10, choices=DWELLING, default="N")
 
     def __str__(self):
-        return '{} {}'.format(self.first_name, self.last_name)
+        return self.member_name
 
-    @property
-    def name(self):
-        return '{} {}'.format(self.first_name, self.last_name)
+    # @property
+    # def name(self):
+    #     return '{} {}'.format(self.first_name, self.last_name)
 
 
 
