@@ -11,11 +11,18 @@
                 <option value="2018">2018</option>
             </select>
         </div>
-        <div class="field">    
-            <input type="button" name="season" class="ui button" value="春季">  
+        <div class="field">  
+            <select class="ui dropdown" name="year">
+                <option value="">請選擇季節</option>
+                <option value="春季">春季</option>
+                <option value="夏季">夏季</option>
+                <option value="秋季">秋季</option>
+                <option value="冬季">冬季</option>
+            </select>  
+            {% comment %} <input type="button" name="season" class="ui button" value="春季">  
             <input type="button" name="season" class="ui button" value="夏季">    
             <input type="button" name="season" class="ui button" value="秋季">    
-            <input type="button" name="season" class="ui button" value="冬季">
+            <input type="button" name="season" class="ui button" value="冬季"> {% endcomment %}
         </div>
         <div class="field">    
             <button type="submit" class="ui button">提交</button>
