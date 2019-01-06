@@ -68,3 +68,18 @@ class MemberList(View):
         dump = json.dumps(chart)
 
         return render(request, 'modules/member/member.html', {'chart': dump})
+
+
+class MemberSearch(View):
+    def get(self, request):
+        return render(request, 'modules/member/membersearch.html')
+
+    def post(self, request):
+        target_age = self.request.POST.get('target_age')
+        target_gender = self.request.POST.get('target_gender')
+        target_dwelling = self.request.POST.get('target_dwelling')
+        if target_age == 'all':
+            members = Member.objects.all()
+        else:
+            members = Member.objects.filter(age=target_age, gender=target_gender, dwelling=target_dwelling)
+        return render(request, 'modules/member/membersearch.html',{'members':members})

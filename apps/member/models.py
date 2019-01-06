@@ -23,16 +23,16 @@ class Member(models.Model):
     cellphone_number = models.CharField(max_length=30, blank=True, null=True)
     email = models.EmailField(unique=True, null=True)
     DWELLING=(
-        ('N','台灣北部'),
-        ('M','台灣中部'),
-        ('S','台灣南部'),
-        ('E','台灣東部'),
-        ('O','其他'),
+        ('北部','台灣北部'),
+        ('中部','台灣中部'),
+        ('南部','台灣南部'),
+        ('東部','台灣東部'),
+        ('其他','其他'),
     )
-    dwelling = models.CharField(max_length=10, choices=DWELLING, default="N")
+    dwelling = models.CharField(max_length=10, choices=DWELLING, default="北部")
 
     def __str__(self):
-        return self.member_name
+        return self.member_name + str(self.age)
 
     # @property
     # def name(self):

@@ -1,10 +1,11 @@
 from django.urls import path
 
-from .views import MemberList
+from .views import MemberList, MemberSearch
 
 app_name = "member"
 
 urlpatterns = [
     path('', MemberList.as_view(), name='list'),
+    path('search/', MemberSearch.as_view(), name='search')
     # path('product/<int:pk>', ProductDetail.as_view(), name='product_detail'),
 ]

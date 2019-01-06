@@ -9,6 +9,10 @@ from .models import Transaction, Transaction_product
 from apps.inventory.models import Product
 
 # Create your views here.
+class TransactionSeason(View):
+    def get(self, request):
+        return render(request, 'modules/transaction/transaction_season.html')
+
 class TransactionChart(View):
     def get(self, request):
         return render(request, 'modules/transaction/transaction_chart.html')
