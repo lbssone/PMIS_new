@@ -70,7 +70,7 @@ class Component(models.Model):
     level =  models.PositiveIntegerField(blank=True, null=True)
     required_material = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True)
     weight = models.PositiveIntegerField(blank=True, null=True)
-    component_detail = models.ForeignKey(Component_detail, on_delete=models.CASCADE, null=True)
+    component_detail = models.ForeignKey(Component_detail, on_delete=models.CASCADE, null=True, blank=True)
     
     def __str__(self):
         return self.name

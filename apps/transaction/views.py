@@ -14,7 +14,7 @@ class TransactionSeason(View):
         return render(request, 'modules/transaction/transaction_season.html')
     def post(self, request):
         req_year = self.request.POST.get('year')
-        req_season = self.request.POST.get('season').value
+        req_season = self.request.POST.get('season')
         month_start = 0
         month_end = 0
         a = ""
@@ -35,8 +35,8 @@ class TransactionSeason(View):
         uv_auto_sold = 0
         uv_manual_sold = 0
         if req_season != "冬季":
-            for trans_data in Transaction_product.objects.filter(transaction__date__year=req_year, 
-            transaction__date__month__gte=month_start, transaction__date__month__lte=month_end):
+            products = Transaction_product.objects.filter(transaction__date__year=req_year, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
+            for trans_data in products:
                 if trans_data.product.name == "抗UV直傘":
                     uv_s_sold += trans_data.quantity
                 elif trans_data.product.name == "抗UV自動摺傘":
@@ -57,8 +57,7 @@ class TransactionSeason(View):
             # date_month = datetime.strptime(str(trans_data.transaction.date), "%Y-%m-%d").month
             
         # year_sold = 0
-        return render(request, 'modules/transaction/transaction_season.html', {'uv_s_sold': uv_s_sold,
-        ' uv_auto_sold':  uv_auto_sold, 'uv_manual_sold': uv_manual_sold, 'a': a})
+        return render(request, 'modules/transaction/transaction_season.html', locals())
 
 class TransactionChart(View):
     def get(self, request):

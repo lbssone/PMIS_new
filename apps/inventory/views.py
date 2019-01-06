@@ -97,9 +97,5 @@ class ScheduleForm(View):
         frp_q = frp - Material.objects.get(name="FRP").inventory
         plastic_date = str(min(plastic_date_lst) - timedelta(days=Material.objects.get(name="塑膠").material_detail.lead_time))
         frp_date = str(min(frp_date_lst) - timedelta(days=Material.objects.get(name="FRP").material_detail.lead_time))
-        return render(request, 'modules/inventory/schedule_form.html',
-            {'name': get_um, 'num': num, 'date': date, 'component_tree_list': component_tree_list, 
-            'material_list': material_list, 'plastic': plastic, 'frp': frp, 'fabric': fabric, 
-            'p_quan': plastic_q, 'frp_quan': frp_q, 'fabric_quan': fabric_q, 'plastic_date': plastic_date, 
-            'frp_date': frp_date, 'fabric_date': fabric_date,})
+        return render(request, 'modules/inventory/schedule_form.html', locals())
 
