@@ -33,6 +33,12 @@ class TransactionSeason(View):
         uv_s_sold = 0
         uv_auto_sold = 0
         uv_manual_sold = 0
+        wind_s_sold = 0
+        wind_auto_sold = 0
+        wind_manual_sold = 0
+        l_s_sold = 0
+        l_auto_sold = 0
+        l_manual_sold = 0
         if req_season != "冬季":
             products = Transaction_product.objects.filter(transaction__date__year=req_year, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
             for trans_data in products:
@@ -42,6 +48,18 @@ class TransactionSeason(View):
                     uv_auto_sold += trans_data.quantity
                 elif trans_data.product.name == "抗UV手開摺傘":
                     uv_manual_sold += trans_data.quantity
+                elif trans_data.product.name == "防風直傘":
+                    wind_s_sold += trans_data.quantity
+                elif trans_data.product.name == "防風自動摺傘":
+                    wind_auto_sold += trans_data.quantity
+                elif trans_data.product.name == "防風手開摺傘":
+                    wind_manual_sold += trans_data.quantity
+                elif trans_data.product.name == "輕量直傘":
+                    l_s_sold += trans_data.quantity
+                elif trans_data.product.name == "輕量自動摺傘":
+                    l_auto_sold += trans_data.quantity
+                elif trans_data.product.name == "輕量手開摺傘":
+                    l_manual_sold += trans_data.quantity
         elif req_season == "冬季":
             for trans_data in Transaction_product.objects.filter(Q(transaction__date__year=req_year) and 
             (Q(transaction__date__month=12) | Q(transaction__date__month=1) | Q(transaction__date__month=2))):
@@ -51,6 +69,18 @@ class TransactionSeason(View):
                     uv_auto_sold += trans_data.quantity
                 elif trans_data.product.name == "抗UV手開摺傘":
                     uv_manual_sold += trans_data.quantity
+                elif trans_data.product.name == "防風直傘":
+                    wind_s_sold += trans_data.quantity
+                elif trans_data.product.name == "防風自動摺傘":
+                    wind_auto_sold += trans_data.quantity
+                elif trans_data.product.name == "防風手開摺傘":
+                    wind_manual_sold += trans_data.quantity
+                elif trans_data.product.name == "輕量直傘":
+                    l_s_sold += trans_data.quantity
+                elif trans_data.product.name == "輕量自動摺傘":
+                    l_auto_sold += trans_data.quantity
+                elif trans_data.product.name == "輕量手開摺傘":
+                    l_manual_sold += trans_data.quantity
         return render(request, 'modules/transaction/transaction_season.html', locals())
 
 class TransactionChart(View):
@@ -77,28 +107,48 @@ class TransactionChart(View):
                 uv_auto_sold += trans_data.quantity
             elif trans_data.product.name == "抗UV手開摺傘":
                 uv_manual_sold += trans_data.quantity
+            elif trans_data.product.name == "防風直傘":
+                wind_s_sold += trans_data.quantity
+            elif trans_data.product.name == "防風自動摺傘":
+                wind_auto_sold += trans_data.quantity
+            elif trans_data.product.name == "防風手開摺傘":
+                wind_manual_sold += trans_data.quantity
+            elif trans_data.product.name == "輕量直傘":
+                l_s_sold += trans_data.quantity
+            elif trans_data.product.name == "輕量自動摺傘":
+                l_auto_sold += trans_data.quantity
+            elif trans_data.product.name == "輕量手開摺傘":
+                l_manual_sold += trans_data.quantity
 
         # uv_s = {'name': '抗UV直傘', 'data': [uv_s_sold, 1], 'color': 'green',}
         # uv_au = {'name': '抗UV自動摺傘', 'data': [uv_auto_sold, 2], 'color': 'red',}
 
         chart = {
-            'chart': {'type': 'column'},
+            'chart': {'type': 'column', 'colors': 'Array.<Highcharts.ColorString>'},
             'title': {
                 'text': str(year) + '年 ' + str(month) + '月雨傘銷售分布',
                 'style': {
                     'fontFamily': 'Microsoft JhengHei'
                 }
             },
-            'xAxis': {'categories': ['抗UV直傘', '抗UV自動摺傘', '抗UV手開摺傘']},
+            'xAxis': {'categories': ['抗UV直傘', '抗UV自動摺傘', '抗UV手開摺傘', '防風直傘', '防風自動摺傘','防風手開摺傘',
+            '輕量直傘', '輕量自動摺傘', '輕量手開摺傘']},
             # 'series': [uv_s, uv_au],
             'series': [{ 
                 'name': '銷售量',
                 'data': [
-                    {'y': uv_s_sold, 'color': 'red'},
-                    {'y': uv_auto_sold, 'color': 'blue'},
-                    {'y': uv_manual_sold, 'color': 'green'}
+                    {'y': uv_s_sold, 'color': '#058DC7'},
+                    {'y': uv_auto_sold, 'color': '#50B432'},
+                    {'y': uv_manual_sold, 'color': '#ED561B'},
+                    {'y': wind_s_sold, 'color': '#DDDF00'},
+                    {'y': wind_auto_sold, 'color': '#24CBE5'},
+                    {'y': wind_manual_sold, 'color': '#64E572'},
+                    {'y': l_s_sold, 'color': '#FF9655'},
+                    {'y': l_auto_sold, 'color': '#FFF263'},
+                    {'y': l_manual_sold, 'color': '#6AF9C4'},        
                 ]
             }],
+            
             'plotOptions': {
                 'series': {
                     # 'grouping': False,
