@@ -1,7 +1,7 @@
 {% extends 'base/layout.html' %}
 
 {% block main %}
-<form action="{% url 'transaction:chart' %}" method="POST" class="ui form">{% csrf_token %}
+<form action="{% url 'transaction:season' %}" method="POST" class="ui form">{% csrf_token %}
     <div class="three fields">
         <div class="three wide field">
             <select class="ui dropdown" name="year">
@@ -11,30 +11,23 @@
                 <option value="2018">2018</option>
             </select>
         </div>
-        <div class="two wide field">
-            <select class="ui dropdown" name="month">
-                <option value="">請選擇月份</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-            </select>
+        <div class="field">    
+            <input type="button" name="season" class="ui button" value="春季">  
+            <input type="button" name="season" class="ui button" value="夏季">    
+            <input type="button" name="season" class="ui button" value="秋季">    
+            <input type="button" name="season" class="ui button" value="冬季">
         </div>
         <div class="field">    
-            <button type="submit" class="ui button">送出</button>
+            <button type="submit" class="ui button">提交</button>
         </div>
     </div>
 </form>
 <br>
 <br>
+<p>{{ uv_s_sold }}</p>
+<p>{{ uv_auto_sold }}</p>
+<p>{{ uv_manual_sold }}</p>
+<p> {{ a }}</p>
 
 {% load static %}
 <script src="{% static 'js/dropdown.js' %}"></script>

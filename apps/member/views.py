@@ -18,9 +18,9 @@ class MemberList(View):
     def get(self, request):
         dataset = Member.objects \
             .values('dwelling') \
-            .annotate(north_count=Count('dwelling', filter=Q(dwelling="N")),
-                    central_count=Count('dwelling', filter=Q(dwelling="M")),
-                    south_count=Count('dwelling', filter=Q(dwelling="S"))) \
+            .annotate(north_count=Count('dwelling', filter=Q(dwelling="北部")),
+                    central_count=Count('dwelling', filter=Q(dwelling="中部")),
+                    south_count=Count('dwelling', filter=Q(dwelling="南部"))) \
             .order_by('dwelling')
 
         categories = list()
@@ -83,3 +83,22 @@ class MemberSearch(View):
         else:
             members = Member.objects.filter(age=target_age, gender=target_gender, dwelling=target_dwelling)
         return render(request, 'modules/member/membersearch.html',{'members':members})
+
+class Piechart(View):
+    def get(self, request):
+        female_count=Member.objects.filter(gender='F').count()
+        male_count=Member.objects.filter(gender='M').count()
+
+        seventeen=Member.objects.filter(age='0-17').count()
+        thirty=Member.objects.filter(age='18-30').count()
+        forty=Member.objects.filter(age='31-40').count()
+        fifty=Member.objects.filter(age='41-50').count()
+        up=Member.objects.filter(age='51').count()
+
+        north=Member.objects.filter(dwelling='北部').count()
+        middle=Member.objects.filter(dwelling='中部').count()
+        south=Member.objects.filter(dwelling='南部').count()
+        east=Member.objects.filter(dwelling='東部').count()
+        other=Member.objects.filter(dwelling='其他').count()
+
+        return render(request, 'modules/member/piechart.html',locals())

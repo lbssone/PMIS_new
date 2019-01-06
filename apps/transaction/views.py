@@ -12,6 +12,53 @@ from apps.inventory.models import Product
 class TransactionSeason(View):
     def get(self, request):
         return render(request, 'modules/transaction/transaction_season.html')
+    def post(self, request):
+        req_year = self.request.POST.get('year')
+        req_season = self.request.POST.get('season').value
+        month_start = 0
+        month_end = 0
+        a = ""
+        if req_season == "春季":
+            month_start = 3
+            month_end = 5
+            a = "A"
+        elif req_season == "夏季":
+            month_start = 6
+            month_end = 8
+        elif req_season == "秋季":
+            month_start = 9
+            month_end = 11
+        elif req_season == "冬季":
+            month_start = 12
+            month_end = 2
+        uv_s_sold = 0
+        uv_auto_sold = 0
+        uv_manual_sold = 0
+        if req_season != "冬季":
+            for trans_data in Transaction_product.objects.filter(transaction__date__year=req_year, 
+            transaction__date__month__gte=month_start, transaction__date__month__lte=month_end):
+                if trans_data.product.name == "抗UV直傘":
+                    uv_s_sold += trans_data.quantity
+                elif trans_data.product.name == "抗UV自動摺傘":
+                    uv_auto_sold += trans_data.quantity
+                elif trans_data.product.name == "抗UV手開摺傘":
+                    uv_manual_sold += trans_data.quantity
+        # elif req_season == "冬季":
+        #     for trans_data in Transaction_product.objects.filter(transaction__date__year=req_year, 
+        #     transaction__date__month=12 | transaction__date__month=1 | transaction__date__month=2):
+        #         if trans_data.product.name == "抗UV直傘":
+        #             uv_s_sold += trans_data.quantity
+        #         elif trans_data.product.name == "抗UV自動摺傘":
+        #             uv_auto_sold += trans_data.quantity
+        #         elif trans_data.product.name == "抗UV手開摺傘":
+        #             uv_manual_sold += trans_data.quantity
+            # date_year = datetime.strptime(str(trans_data.transaction.date), "%Y-%m-%d").year
+
+            # date_month = datetime.strptime(str(trans_data.transaction.date), "%Y-%m-%d").month
+            
+        # year_sold = 0
+        return render(request, 'modules/transaction/transaction_season.html', {'uv_s_sold': uv_s_sold,
+        ' uv_auto_sold':  uv_auto_sold, 'uv_manual_sold': uv_manual_sold, 'a': a})
 
 class TransactionChart(View):
     def get(self, request):
