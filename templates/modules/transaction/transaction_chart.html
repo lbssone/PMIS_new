@@ -36,10 +36,12 @@
 <br>
 <br>
 
+{% if chart %}
 <div id="container"></div>
 <script>
   Highcharts.chart('container', {{ chart|safe }});
 </script>
+{% endif %}
 
 {% load static %}
 <script src="{% static 'js/dropdown.js' %}"></script>

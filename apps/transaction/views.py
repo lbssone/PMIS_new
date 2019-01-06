@@ -1,6 +1,7 @@
 import json
 from django.shortcuts import render
 from django.views.generic import DetailView, CreateView, UpdateView, View
+from django.db.models import Q
 
 from datetime import datetime, timedelta
 
@@ -17,11 +18,9 @@ class TransactionSeason(View):
         req_season = self.request.POST.get('season')
         month_start = 0
         month_end = 0
-        a = ""
         if req_season == "春季":
             month_start = 3
             month_end = 5
-            a = "A"
         elif req_season == "夏季":
             month_start = 6
             month_end = 8
@@ -43,20 +42,15 @@ class TransactionSeason(View):
                     uv_auto_sold += trans_data.quantity
                 elif trans_data.product.name == "抗UV手開摺傘":
                     uv_manual_sold += trans_data.quantity
-        # elif req_season == "冬季":
-        #     for trans_data in Transaction_product.objects.filter(transaction__date__year=req_year, 
-        #     transaction__date__month=12 | transaction__date__month=1 | transaction__date__month=2):
-        #         if trans_data.product.name == "抗UV直傘":
-        #             uv_s_sold += trans_data.quantity
-        #         elif trans_data.product.name == "抗UV自動摺傘":
-        #             uv_auto_sold += trans_data.quantity
-        #         elif trans_data.product.name == "抗UV手開摺傘":
-        #             uv_manual_sold += trans_data.quantity
-            # date_year = datetime.strptime(str(trans_data.transaction.date), "%Y-%m-%d").year
-
-            # date_month = datetime.strptime(str(trans_data.transaction.date), "%Y-%m-%d").month
-            
-        # year_sold = 0
+        elif req_season == "冬季":
+            for trans_data in Transaction_product.objects.filter(Q(transaction__date__year=req_year) and 
+            (Q(transaction__date__month=12) | Q(transaction__date__month=1) | Q(transaction__date__month=2))):
+                if trans_data.product.name == "抗UV直傘":
+                    uv_s_sold += trans_data.quantity
+                elif trans_data.product.name == "抗UV自動摺傘":
+                    uv_auto_sold += trans_data.quantity
+                elif trans_data.product.name == "抗UV手開摺傘":
+                    uv_manual_sold += trans_data.quantity
         return render(request, 'modules/transaction/transaction_season.html', locals())
 
 class TransactionChart(View):
@@ -69,16 +63,20 @@ class TransactionChart(View):
         uv_s_sold = 0
         uv_auto_sold = 0
         uv_manual_sold = 0
-        for trans_data in Transaction_product.objects.all():
-            date_year = datetime.strptime(str(trans_data.transaction.date), "%Y-%m-%d").year
-            date_month = datetime.strptime(str(trans_data.transaction.date), "%Y-%m-%d").month
-            if date_year == year and date_month == month:
-                if trans_data.product.name == "抗UV直傘":
-                    uv_s_sold += trans_data.quantity
-                elif trans_data.product.name == "抗UV自動摺傘":
-                    uv_auto_sold += trans_data.quantity
-                elif trans_data.product.name == "抗UV手開摺傘":
-                    uv_manual_sold += trans_data.quantity
+        wind_s_sold = 0
+        wind_auto_sold = 0
+        wind_manual_sold = 0
+        l_s_sold = 0
+        l_auto_sold = 0
+        l_manual_sold = 0
+        for trans_data in Transaction_product.objects.filter(Q(transaction__date__year=year) and 
+        Q(transaction__date__month=month)):
+            if trans_data.product.name == "抗UV直傘":
+                uv_s_sold += trans_data.quantity
+            elif trans_data.product.name == "抗UV自動摺傘":
+                uv_auto_sold += trans_data.quantity
+            elif trans_data.product.name == "抗UV手開摺傘":
+                uv_manual_sold += trans_data.quantity
 
         # uv_s = {'name': '抗UV直傘', 'data': [uv_s_sold, 1], 'color': 'green',}
         # uv_au = {'name': '抗UV自動摺傘', 'data': [uv_auto_sold, 2], 'color': 'red',}
@@ -110,7 +108,7 @@ class TransactionChart(View):
 
         dump = json.dumps(chart)
 
-        return render(request, 'modules/member/member.html', {'chart': dump})
+        return render(request, 'modules/transaction/transaction_chart.html', {'chart': dump})
     
 
     # def get(self, request):
