@@ -1,39 +1,41 @@
 {% extends 'base/layout.html' %}
 
 {% block main %}
-
+<h2>生產排程</h2>
+<br>
 <form action="{% url 'inventory:schedule_form' %}" method="POST" class="ui form">{% csrf_token %}
     <div class="three fields">
         <div class="three wide field">
+            <label>需求日期:</label>
             <input id="date" type="date" name="date">
         </div>
         <div class="two wide field">
+            <label>雨傘類型:</label>
             <select class="ui dropdown" name="umbrella">
                 <option value="抗UV直傘">抗UV直傘</option>
                 <option value="防風直傘">防風直傘</option>
                 <option value="輕量直傘">輕量直傘</option>
             </select>
         </div>
-        {% comment %} <label for="number">抗UV直傘:</label> {% endcomment %}
         <div class="two wide field">
+            <label>數量:</label>
             <input type="text" id="num" name="num_of_umbrella">
         </div>
         <div class="field">
+            <label>&nbsp&nbsp</label>
             <button type="submit" class="ui button">送出</button>
         </div>
     </div>
 </form>
 <br>
 {% if component_tree_list %}
-    {% comment %} {% for item in component_number_list %}
-        <p>{{ item.0 }}: {{ item.1 }}</p>
-    {% endfor %} {% endcomment %}
-    <p id="top">{{ date }} {{ name }} {{ num }}支</p>
-    <div style="display:block" class="tree">
+    <p id="top">{{ date }} {{ get_um }} {{ num }}支</p>
+    <button class="ui orange button" onclick="displayTree()">檢視產品結構樹</button>
+    <div style="display:none" class="tree" id="tree">
         <ul>
             <div>
                 <li>
-                    <a href="#">{{ name }}</a>
+                    <a href="#">{{ get_um }}</a>
                     <ul>
                     {% for item in component_tree_list %}
                         <li>
@@ -98,7 +100,7 @@
                     <td>{{ material_list.0 }}</td>
                     <td>{{ plastic }}g</td>
                     <td>{{ material_list.0.inventory }}g</td>
-                    <td class="negative">不足{{ p_quan }}g</td>
+                    <td class="negative">不足{{ plastic_q }}g</td>
                     <td>應於{{ plastic_date }}訂貨</td>
                     <td>{{ material_list.0.material_detail.eoq }}</td>
                 {% else %}
@@ -115,7 +117,7 @@
                     <td>{{ material_list.1 }}</td>
                     <td>{{ frp }}g</td>
                     <td>{{ material_list.1.inventory }}g</td>
-                    <td class="negative">不足{{ frp_quan }}g</td>
+                    <td class="negative">不足{{ frp_q }}g</td>
                     <td>應於{{ frp_date }}訂貨</td>
                     <td>{{ material_list.1.material_detail.eoq }}</td>
                 {% else %}
@@ -132,7 +134,7 @@
                     <td>{{ material_list.2 }}</td>
                     <td>{{ fabric }}g</td>
                     <td>{{ material_list.2.inventory }}g</td>
-                    <td class="negative">不足{{ fabric_quan }}g</td>
+                    <td class="negative">不足{{ fabric_q }}g</td>
                     <td>應於{{ fabric_date }}訂貨</td>
                     <td>{{ material_list.2.material_detail.eoq }}</td>
                 {% else %}

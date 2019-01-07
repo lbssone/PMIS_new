@@ -28,17 +28,15 @@
             </div>
         </div>
         <a class="item" href="{% url 'inventory:schedule_form' %}">生產排程</a>
-        <a class="item" href="{% url 'transaction:season' %}">季節銷售分析</a>
-        <a class="item" href="{% url 'transaction:chart' %}">月份圖表分析</a>
+        <div class="ui simple dropdown item">
+            需求預測 <i class="dropdown icon"></i>
+            <div class="menu">
+                <a class="item" href="{% url 'transaction:season' %}">季節銷售狀況</a>
+                <a class="item" href="{% url 'transaction:chart' %}">月銷售圖表分析</a>
+            </div>
+        </div>
         <a class="item" href="{% url 'activity:detail' %}">行銷活動</a>
         <a class="item" href="{% url 'member:search' %}">會員查詢</a>
         <a class="item" href="{% url 'member:piechart' %}">會員分布圖</a>
-        <div class="ui simple dropdown item">
-            會員管理 <i class="dropdown icon"></i>
-            <div class="menu">
-                <a class="item" href="{% url 'member:list' %}">會員資料</a>
-            </div>
-        </div>
-        <a class="item">Sign-in</a>
     </div>
 </div>

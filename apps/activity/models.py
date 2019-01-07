@@ -13,6 +13,9 @@ class Activity(models.Model):
     #select more than one member
     target_members = models.ManyToManyField(Member, blank=True)
 
+    def __str__(self):
+        return '{}  {}'.format(str(self.activity_date), self.activity_name)
+
     #獲取率
     def get(self):
         try:
@@ -28,9 +31,6 @@ class Activity(models.Model):
         except ZeroDivisionError:
             efficiency = 0
         return efficiency
-
-    def __str__(self):
-        return self.activity_name
     
     class Meta:
         ordering = ["-activity_date"]

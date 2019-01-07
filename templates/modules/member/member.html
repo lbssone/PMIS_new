@@ -1,37 +1,7 @@
 {% extends 'base/layout.html' %}
 
 {% block main %}
-{% comment %} {% for member in member_list %} {% endcomment %}
-    {% comment %} <table class="ui celled table">
-        <thead>
-          <tr class="center aligned">
-              <th>Name</th>
-              <th>Member Number</th>
-              <th>Gender</th>
-              <th>Age</th>
-              <th>Cellphone Number</th>
-              <th>Email</th>
-              <th>Occupation</th>
-              <th>Working/School Address</th>
-              <th>Home Address</th>
-          </tr>
-        </thead>
 
-        <tbody>
-          <tr class="center aligned">
-            <td>{{member.name}}</td>
-            <td>{{member.member_number}}</td>
-            <td>{{member.gender}}</td>
-            <td>{{member.age}}</td>
-            <td>{{member.cellphone_number}}</td>
-            <td>{{member.email}}</td>
-            <td>{{member.occupation}}</td>
-            <td>{{member.working_school_address}}</td>
-            <td>{{member.home_address}}</td>
-          </tr>
-        </tbody>
-      </table>
-{% endfor %} {% endcomment %}
 <div id="container"></div>
 <script>
   Highcharts.chart('container', {{ chart|safe }});

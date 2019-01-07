@@ -2,6 +2,7 @@
 
 {% block main %}
 <h2>會員查詢</h2>
+<br>
 
 <form action="{% url 'member:search' %}" method='POST' class="ui form">{% csrf_token %}
     <div class="two fields">
@@ -35,9 +36,10 @@
                 <option value="其他">其他</option>
             </select><br>
         </div>
-    </div>
-    <div>
-        <button type="submit" class="ui button">submit</button>
+        <div class="field">
+            <label>&nbsp&nbsp</label>
+            <button type="submit" class="ui button">查詢</button>
+        </div>
     </div>
 </form>
 <br><br>

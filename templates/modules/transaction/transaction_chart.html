@@ -1,6 +1,9 @@
 {% extends 'base/layout.html' %}
 
 {% block main %}
+<h2>月銷售圖表分析</h2>
+<hr>
+<br>
 <form action="{% url 'transaction:chart' %}" method="POST" class="ui form">{% csrf_token %}
     <div class="three fields">
         <div class="three wide field">
