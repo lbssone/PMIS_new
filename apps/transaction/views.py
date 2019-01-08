@@ -14,7 +14,7 @@ class TransactionSeason(View):
     def get(self, request):
         return render(request, 'modules/transaction/transaction_season.html')
     def post(self, request):
-        req_year = self.request.POST.get('year')
+        # req_year = self.request.POST.get('year')
         req_season = self.request.POST.get('season')
         month_start = 0
         month_end = 0
@@ -40,8 +40,10 @@ class TransactionSeason(View):
         l_auto_sold = 0
         l_manual_sold = 0
         if req_season != "冬季":
-            products = Transaction_product.objects.filter(transaction__date__year=req_year, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
-            for trans_data in products:
+            products_2016 = Transaction_product.objects.filter(transaction__date__year=2016, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
+            products_2017 = Transaction_product.objects.filter(transaction__date__year=2017, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
+            products_2018 = Transaction_product.objects.filter(transaction__date__year=2018, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
+            for trans_data in products_2018:
                 if trans_data.product.name == "抗UV直傘":
                     uv_s_sold += trans_data.quantity
                 elif trans_data.product.name == "抗UV自動摺傘":
@@ -61,7 +63,7 @@ class TransactionSeason(View):
                 elif trans_data.product.name == "輕量手開摺傘":
                     l_manual_sold += trans_data.quantity
         elif req_season == "冬季":
-            for trans_data in Transaction_product.objects.filter(Q(transaction__date__year=req_year) and 
+            for trans_data in Transaction_product.objects.filter(Q(transaction__date__year=2018) & 
             (Q(transaction__date__month=12) | Q(transaction__date__month=1) | Q(transaction__date__month=2))):
                 if trans_data.product.name == "抗UV直傘":
                     uv_s_sold += trans_data.quantity

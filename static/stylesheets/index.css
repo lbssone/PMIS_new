@@ -138,7 +138,7 @@ right connector from last child*/
 /*Time for some hover effects*/
 /*We will apply the hover effect the the lineage of the element also*/
 .tree li a:hover, .tree li a:hover+ul li a {
-	background: #41c5c5; color: rgb(255, 255, 255); border: 1px solid #2e9b9b;
+	background: #008080; color: rgb(255, 255, 255); border: 1px solid #2e9b9b;
 }
 /*Connector styles on hover*/
 .tree li a:hover+ul li::after, 

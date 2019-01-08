@@ -1,9 +1,17 @@
 function displayMaterial() {
     var materials = document.getElementById("material");
-    materials.style.display = "block";  	 
+    if (materials.style.display == "none") {
+        materials.style.display = "block";
+    } else{
+        materials.style.display = "none";
+    }	 	 
 }
 
 function displayTree() {
     var product_tree = document.getElementById("tree");
-    product_tree.style.display = "block";  	 
+    if (product_tree.style.display == "none") {
+        product_tree.style.display = "block";
+    } else{
+        product_tree.style.display = "none";
+    }	 
 }

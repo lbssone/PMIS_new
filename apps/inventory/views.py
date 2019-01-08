@@ -52,6 +52,7 @@ class ScheduleForm(View):
             umbrella = Product.objects.get(number="2")
         elif get_um == "輕量直傘":
             umbrella = Product.objects.get(number="3")
+        lack = num - umbrella.inventory
         component_tree_list = []
         material_list = []
         plastic = 0
@@ -61,7 +62,7 @@ class ScheduleForm(View):
         frp_date_lst = []
         fabric_date = None
         for component in umbrella.components_required.all():
-            component_wanted = component.number_needed*num
+            component_wanted = component.number_needed*lack
             component_diff = component_wanted - component.inventory
             produce_date = date_1 - timedelta(days=component.component_detail.lead_time)
             produce_date_str = str(date_1 - timedelta(days=component.component_detail.lead_time))
@@ -70,7 +71,7 @@ class ScheduleForm(View):
             if component.required_material not in material_list:
                 material_list.append(component.required_material)
             if component.required_material.name == "塑膠":
-                if component_diff > 0:
+                if component_diff > 0: #代表零件存貨不夠，需生產零件，所以要計算不足零件所需原物料
                     plastic += (component.weight * component_diff)
                 else:
                     plastic += 0
@@ -82,7 +83,10 @@ class ScheduleForm(View):
                     frp += 0
                 frp_date_lst.append(produce_date)
             if component.required_material.name == "黑膠傘布" or component.required_material.name == "防潑水傘布":
-                fabric += (component.weight * component_diff)
+                if component_diff > 0:
+                    fabric += (component.weight * component_diff)
+                else:
+                    fabric += 0
                 fabric_q = fabric - Material.objects.get(name=component.required_material.name).inventory
                 fabric_date = str(produce_date - timedelta(days=Material.objects.get(name=component.required_material.name).material_detail.lead_time))
             # if component.required_material.name == "防潑水傘布":
