@@ -101,7 +101,7 @@ class TransactionChart(View):
         l_s_sold = 0
         l_auto_sold = 0
         l_manual_sold = 0
-        for trans_data in Transaction_product.objects.filter(Q(transaction__date__year=year) and 
+        for trans_data in Transaction_product.objects.filter(Q(transaction__date__year=year) & 
         Q(transaction__date__month=month)):
             if trans_data.product.name == "抗UV直傘":
                 uv_s_sold += trans_data.quantity
@@ -126,7 +126,7 @@ class TransactionChart(View):
         # uv_au = {'name': '抗UV自動摺傘', 'data': [uv_auto_sold, 2], 'color': 'red',}
 
         chart = {
-            'chart': {'type': 'column', 'colors': 'Array.<Highcharts.ColorString>'},
+            'chart': {'type': 'column', 'colors': 'Array.<Highcharts.ColorString>', 'backgroundColor': '#f4f7f6'},
             'title': {
                 'text': str(year) + '年 ' + str(month) + '月雨傘銷售分布',
                 'style': {
@@ -148,7 +148,8 @@ class TransactionChart(View):
                     {'y': l_s_sold, 'color': '#FF9655'},
                     {'y': l_auto_sold, 'color': '#FFF263'},
                     {'y': l_manual_sold, 'color': '#6AF9C4'},        
-                ]
+                ],
+            'backgroundColor': '#f4f7f6'
             }],
             
             'plotOptions': {

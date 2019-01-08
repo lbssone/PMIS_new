@@ -6,7 +6,7 @@
 <div class="ui segment">
     <div class="ui three column grid">
         <div class="column">
-            <h1 class="ui dividing header">Products</h1>
+            <h3 class="ui dividing header">Products</h3>
             <div class="ui horizontal divider"></div>
             {% for product in product_list %}
                 {% if product.inventory < product.level %}
@@ -17,14 +17,14 @@
             {% endfor %}
         </div>
         <div class="column">
-            <h1 class="ui dividing header">Components</h1>
+            <h3 class="ui dividing header">Components</h3>
             <div class="ui horizontal divider"></div>
             {% for component in component_list %}
                 <p>{{ component.name }}: {{ component.inventory }}</p>
             {% endfor %}
         </div>
         <div class="column">
-            <h1 class="ui dividing header">Materials</h1>
+            <h3 class="ui dividing header">Materials</h3>
             <div class="ui horizontal divider"></div>
             <div class="ui two column grid">
                 {% for material in material_list %}

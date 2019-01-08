@@ -1,4 +1,7 @@
-$('.ui.dropdown') .dropdown();
+// $(document).ready(function() {
+//     $('.ui.menu').menu();
+// });
+$('.ui .item').tab();
 
 $('.ui .item').on('click', function() {
     $('.ui .item').removeClass('active');

@@ -1,3 +1,20 @@
+::-webkit-scrollbar { 
+	display: none; 
+}
+
+body {
+	background-color: #f4f7f6!important;
+}
+
+div#top {
+	text-align: center;
+	margin-top: 1.5em;
+}
+
+.ui.segment {
+	background-color: #f4f7f6!important;
+}
+
 .container {
     width: 60%;
 }
@@ -18,22 +35,52 @@ nav #logo {
 	padding-bottom: 0.3rem;
 }
 
-.ui.menu.c-font {
+.ui.text.menu.c-font {
     font-family: Microsoft JhengHei;
-    font-size: 1.2rem;
+	font-size: 1.3rem;
+	background-color: #f4f7f6!important;
+	margin-top: 1em;
+	margin-bottom: .5em;
+	text-align: center;
+	border-bottom: solid 1px lightgray;
+}
+
+.ui.secondary.menu.c-font {
+    font-family: Microsoft JhengHei;
+	font-size: 1.3rem;
+	background-color: #f4f7f6!important;
+	margin-top: 1em;
+	margin-bottom: .5em;
+	text-align: center;
+	/* border-bottom: solid 1px lightgray; */
+}
+
+.ui.text.menu .item {
+	margin: 15px;
+}
+
+.a {
+	color: black;
 }
 
 .ui.container.c-font {
     font-family: Microsoft JhengHei;
 }
 
-.ui.menu .item {
-    padding-top: 0.3em;
-    padding-bottom: 0.3em;
+.ui.text.menu .item {
+    padding-top: 0.45em;
+	padding-bottom: 0.45em;
+	font-weight: 500;
+}
+
+.ui.secondary.menu .item {
+    padding-top: 0.45em;
+	padding-bottom: 0.45em;
+	font-weight: 500;
 }
 
 #nav-img {
-    width: 5.5rem;
+    width: 5rem;
 }
 
 h1, h2, h3, h4, h5 {
@@ -41,7 +88,7 @@ h1, h2, h3, h4, h5 {
 }
 
 main p {
-    font-size: 14pt;
+    font-size: 13pt;
 }
 
 p#top {
