@@ -17,11 +17,24 @@ class MemberSearch(View):
         target_age = self.request.POST.get('target_age')
         target_gender = self.request.POST.get('target_gender')
         target_dwelling = self.request.POST.get('target_dwelling')
-        if target_age == 'all':
+        if target_age == '全選' and target_gender == '全選' and target_dwelling == '全選':
             members = Member.objects.all()
+        elif target_age == '全選' and target_gender == 'all':
+            members = Member.objects.filter(dwelling=target_dwelling)
+        elif target_age == '全選' and target_dwelling == 'all':
+            members = Member.objects.filter(gender=target_gender)
+        elif target_gender == '全選' and target_dwelling == 'all':
+            members = Member.objects.filter(age=target_age)
+        elif target_age == '全選':
+            members = Member.objects.filter(gender=target_gender,dwelling=target_dwelling)
+        elif target_gender == '全選':
+            members = Member.objects.filter(age=target_age,dwelling=target_dwelling)
+        elif target_dwelling == '全選':
+            members = Member.objects.filter(age=target_age,gender=target_gender)
         else:
             members = Member.objects.filter(age=target_age, gender=target_gender, dwelling=target_dwelling)
-        return render(request, 'modules/member/membersearch.html',{'members':members})
+
+        return render(request, 'modules/member/membersearch.html', locals())
 
 class Piechart(View):
     def get(self, request):

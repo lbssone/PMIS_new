@@ -9,26 +9,26 @@
         <div class="two wide field">
             <label for='target_age'>目標客群年齡</label>
             <select class="ui dropdown" name='target_age' >
-                <option value="all">全選</option>
-                <option value="0-17">17歲以下</option>
-                <option value="18-30">18-30歲</option>
-                <option value="31-40">31-40歲</option>
-                <option value="41-50">41-50歲</option>
-                <option value="51">51歲以上</option>
+                <option value="全選">全選</option>
+                <option value="0-17歲">17歲以下</option>
+                <option value="18-30歲">18-30歲</option>
+                <option value="31-40歲">31-40歲</option>
+                <option value="41-50歲">41-50歲</option>
+                <option value="51歲以上">51歲以上</option>
             </select>
         </div>
         <div class="two wide field">
             <label for='target_gender'>目標客群性別</label>
             <select class="ui dropdown" name='target_gender' >
-                <option value="all">全選</option>
-                <option value="F">女性</option>
-                <option value="M">男性</option>
+                <option value="全選">全選</option>
+                <option value="女性">女性</option>
+                <option value="男性">男性</option>
             </select>
         </div>
         <div class="two wide field">
             <label for='target_dwelling'>目標客群居住地</label>
             <select class="ui dropdown" name="target_dwelling" >
-                <option value="all">全選</option>
+                <option value="全選">全選</option>
                 <option value="北部">台灣北部</option>
                 <option value="中部">台灣中部</option>
                 <option value="南部">台灣南部</option>
@@ -44,9 +44,11 @@
 </form>
 <br><br>
 {% if members %}
+    <p>{{ target_age }} {{ target_gender }} {{ target_dwelling }}</p>
     <table class="ui table">
     <thead>
         <tr>
+            <th></th>
             <th>會員名稱</th>
             <th>年齡</th>
             <th>性別</th>
@@ -58,6 +60,7 @@
     <tbody>
         {% for m in members %}
         <tr>
+            <td>{{ forloop.counter }}</td>
             <td>{{ m.member_name }}</td>
             <td>{{ m.age }}</td>
             <td>{{ m.gender }}</td>

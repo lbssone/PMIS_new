@@ -20,9 +20,11 @@
                 </div>
                 <div class="column">
                 <div class="ui simple dropdown item">
-                    需求預測 <i class="dropdown icon"></i>
+                    銷售狀況 <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a class="item" href="{% url 'transaction:season' %}">季節銷售狀況</a>
+                        <a class="item" href="{% url 'transaction:year' %}">歷年年銷售狀況</a>
+                        <a class="item" href="{% url 'transaction:season' %}">歷年季銷售狀況</a>
+                        <a class="item" href="{% url 'transaction:month' %}">歷年月銷售狀況</a>
                         <a class="item" href="{% url 'transaction:chart' %}">月銷售圖表分析</a>
                     </div>
                 </div>

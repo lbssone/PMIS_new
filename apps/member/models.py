@@ -8,18 +8,18 @@ class Member(models.Model):
     # first_name = models.CharField(max_length=30, null=True)
     # last_name = models.CharField(max_length=30, null=True)
     AGE=(
-        ('0-17','17歲以下'),
-        ('18-30','18-30歲'),
-        ('31-40','31-40歲'),
-        ('41-50','41-50歲'),
-        ('51','51歲以上'),
+        ('0-17歲','17歲以下'),
+        ('18-30歲','18-30歲'),
+        ('31-40歲','31-40歲'),
+        ('41-50歲','41-50歲'),
+        ('51歲以上','51歲以上'),
     )
-    age = models.CharField(max_length=10, choices=AGE, default="18-30")
+    age = models.CharField(max_length=10, choices=AGE, default="18-30歲")
     GENDER=(
-        ('F','女性'),
-        ('M','男性'),
+        ('女性','女性'),
+        ('男性','男性'),
     )
-    gender = models.CharField(max_length=10, choices=GENDER, default="F")
+    gender = models.CharField(max_length=10, choices=GENDER, default="女性")
     cellphone_number = models.CharField(max_length=30, blank=True, null=True)
     email = models.EmailField(unique=True, null=True)
     DWELLING=(
