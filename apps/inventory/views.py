@@ -52,6 +52,18 @@ class ScheduleForm(View):
             umbrella = Product.objects.get(number="2")
         elif get_um == "輕量直傘":
             umbrella = Product.objects.get(number="3")
+        elif get_um == "抗UV自動摺傘":
+            umbrella = Product.objects.get(number="4")
+        elif get_um == "防風自動摺傘":
+            umbrella = Product.objects.get(number="5")
+        elif get_um == "輕量自動摺傘":
+            umbrella = Product.objects.get(number="6")
+        elif get_um == "抗UV手開摺傘":
+            umbrella = Product.objects.get(number="7")
+        elif get_um == "防風手開摺傘":
+            umbrella = Product.objects.get(number="8")
+        elif get_um == "輕量手開摺傘":
+            umbrella = Product.objects.get(number="9")
         lack = num - umbrella.inventory
         component_tree_list = []
         material_list = []

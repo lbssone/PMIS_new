@@ -38,14 +38,14 @@ class MemberSearch(View):
 
 class Piechart(View):
     def get(self, request):
-        female_count=Member.objects.filter(gender='F').count()
-        male_count=Member.objects.filter(gender='M').count()
+        female_count=Member.objects.filter(gender='女性').count()
+        male_count=Member.objects.filter(gender='男性').count()
 
-        seventeen=Member.objects.filter(age='0-17').count()
-        thirty=Member.objects.filter(age='18-30').count()
-        forty=Member.objects.filter(age='31-40').count()
-        fifty=Member.objects.filter(age='41-50').count()
-        up=Member.objects.filter(age='51').count()
+        seventeen=Member.objects.filter(age='0-17歲').count()
+        thirty=Member.objects.filter(age='18-30歲').count()
+        forty=Member.objects.filter(age='31-40歲').count()
+        fifty=Member.objects.filter(age='41-50歲').count()
+        up=Member.objects.filter(age='51歲以上').count()
 
         north=Member.objects.filter(dwelling='北部').count()
         middle=Member.objects.filter(dwelling='中部').count()
