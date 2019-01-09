@@ -19,11 +19,11 @@ class MemberSearch(View):
         target_dwelling = self.request.POST.get('target_dwelling')
         if target_age == '全選' and target_gender == '全選' and target_dwelling == '全選':
             members = Member.objects.all()
-        elif target_age == '全選' and target_gender == 'all':
+        elif target_age == '全選' and target_gender == '全選':
             members = Member.objects.filter(dwelling=target_dwelling)
-        elif target_age == '全選' and target_dwelling == 'all':
+        elif target_age == '全選' and target_dwelling == '全選':
             members = Member.objects.filter(gender=target_gender)
-        elif target_gender == '全選' and target_dwelling == 'all':
+        elif target_gender == '全選' and target_dwelling == '全選':
             members = Member.objects.filter(age=target_age)
         elif target_age == '全選':
             members = Member.objects.filter(gender=target_gender,dwelling=target_dwelling)

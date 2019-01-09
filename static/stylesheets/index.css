@@ -17,19 +17,19 @@ hr {
 #h1-top {
 	margin-bottom: 10px;
 }
-
+/* 
 .ui.grid {
     margin-top: 1rem;
-}
+} */
 
 div#top {
 	text-align: center;
 	margin-top: 1.5em;
 }
 
-.ui.segment {
+/* .ui.segment {
 	background-color: rgba(0, 0, 0, 0)!important;
-}
+} */
 
 .container {
     width: 60%;
@@ -46,18 +46,17 @@ nav #logo {
 .ui.narrow.button {
 	padding: 0.3em 0.3em 0.3em 0.6em;
 }
-
+/* 
 .ui.relaxed.grid>.column:not(.row){
 	padding-left: 1.55rem;
-}
+}*/
 
 .ui.grid>.row {
 	padding-bottom: 0.3rem;
 }
 
-.ui.text.menu.c-font {
+.ui.menu .c-font {
     font-family: Microsoft JhengHei;
-	font-size: 1.35rem;
 	background-color: rgba(0, 0, 0, 0)!important;
 	margin-top: 0em;
 	margin-bottom: 0em;
@@ -67,14 +66,19 @@ nav #logo {
 	/* border-bottom: solid 1px lightgray; */
 }
 
-.ui.grid>.column:not(.row), .ui.grid>.row>.column {
+.ui.menu {
+	font-family: Microsoft JhengHei;
+	font-size: 1.3rem;
+}
+
+/* .ui.grid>.column:not(.row), .ui.grid>.row>.column {
 	width: 52%;
 }
 
 .ui.grid>.column:not(.row) {
 	padding-top: 0;
 	padding-bottom: 0;
-}
+} */
 
 /* .menu-top {
 	position: fixed;
