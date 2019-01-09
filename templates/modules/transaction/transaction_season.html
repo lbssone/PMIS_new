@@ -42,7 +42,27 @@
 </form>
 <h3>{{ req_year }} {{ req_season }}</h3>
 
-<p>{{ dict_2018 }}</p>
+<p>{{ product_dict }}</p>
+<table class="ui sortable celled table">
+    <thead>
+        <tr>
+            <th>產品名稱</th>
+            <th class="sorted ascending">2016</th>
+            <th class="sorted ascending">2017</th>
+            <th class="sorted ascending">2018</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for key, v in product_dict.items %}
+        <tr>
+            <td>{{ key }}</td>
+            {% comment %} {% for v in product_dict.key %} {% endcomment %}
+            <td>{{ v }}</td>
+            {% comment %} {% endfor %} {% endcomment %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% comment %} <table class="ui sortable celled table">
     <thead>
         <tr>

@@ -30,48 +30,59 @@ class TransactionSeason(View):
         elif req_season == "冬季":
             month_start = 12
             month_end = 2
-            
-        dict_2016 = {
-            '抗UV直傘': 0, '抗UV自動摺傘': 0, '抗UV手開摺傘': 0, '防風直傘': 0, '防風自動摺傘': 0, '防風手開摺傘': 0, 
-            '輕量直傘': 0, '輕量自動摺傘': 0, '輕量手開摺傘': 0,
-        }
-        dict_2017 = {
-            '抗UV直傘': 0, '抗UV自動摺傘': 0, '抗UV手開摺傘': 0, '防風直傘': 0, '防風自動摺傘': 0, '防風手開摺傘': 0, 
-            '輕量直傘': 0, '輕量自動摺傘': 0, '輕量手開摺傘': 0,
-        }
-        dict_2018 = {
-            '抗UV直傘': 0, '抗UV自動摺傘': 0, '抗UV手開摺傘': 0, '防風直傘': 0, '防風自動摺傘': 0, '防風手開摺傘': 0, 
-            '輕量直傘': 0, '輕量自動摺傘': 0, '輕量手開摺傘': 0,
+
+        # dict_2016 = {
+        #     '抗UV直傘': 0, '抗UV自動摺傘': 0, '抗UV手開摺傘': 0, '防風直傘': 0, '防風自動摺傘': 0, '防風手開摺傘': 0, 
+        #     '輕量直傘': 0, '輕量自動摺傘': 0, '輕量手開摺傘': 0,
+        # }
+        # dict_2017 = {
+        #     '抗UV直傘': 0, '抗UV自動摺傘': 0, '抗UV手開摺傘': 0, '防風直傘': 0, '防風自動摺傘': 0, '防風手開摺傘': 0, 
+        #     '輕量直傘': 0, '輕量自動摺傘': 0, '輕量手開摺傘': 0,
+        # }
+        product_dict = {
+            '抗UV直傘': [0, 0, 0], '抗UV自動摺傘': [0, 0, 0], '抗UV手開摺傘': [0, 0, 0], '防風直傘': [0, 0, 0], 
+            '防風自動摺傘': [0, 0, 0], '防風手開摺傘': [0, 0, 0], '輕量直傘': [0, 0, 0], '輕量自動摺傘': [0, 0, 0], 
+            '輕量手開摺傘': [0, 0, 0],
         }
         if req_season != "冬季":
             products_2016 = Transaction_product.objects.filter(transaction__date__year=2016, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
             products_2017 = Transaction_product.objects.filter(transaction__date__year=2017, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
             products_2018 = Transaction_product.objects.filter(transaction__date__year=2018, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
             for trans_data in products_2016:
-                if trans_data.product.name in dict_2018:
-                    dict_2016[trans_data.product.name] += trans_data.quantity
+                product_dict[trans_data.product.name][0] += trans_data.quantity
             for trans_data in products_2017:
-                if trans_data.product.name in dict_2017:
-                    dict_2017[trans_data.product.name] += trans_data.quantity
+                product_dict[trans_data.product.name][1] += trans_data.quantity
             for trans_data in products_2018:
-                if trans_data.product.name in dict_2016:
-                    dict_2018[trans_data.product.name] += trans_data.quantity
-        elif req_season == "冬季":
-            products_2016 = Transaction_product.objects.filter(Q(transaction__date__year=2018) & (Q(transaction__date__month=12) | 
-            Q(transaction__date__month=1) | Q(transaction__date__month=2)))
-            products_2017 = Transaction_product.objects.filter(Q(transaction__date__year=2018) & (Q(transaction__date__month=12) | 
-            Q(transaction__date__month=1) | Q(transaction__date__month=2)))
-            products_2018 = Transaction_product.objects.filter(Q(transaction__date__year=2018) & (Q(transaction__date__month=12) | 
-            Q(transaction__date__month=1) | Q(transaction__date__month=2)))
-            for trans_data in products_2016:
-                if trans_data.product.name in dict_2018:
-                    dict_2016[trans_data.product.name] += trans_data.quantity
-            for trans_data in products_2017:
-                if trans_data.product.name in dict_2017:
-                    dict_2017[trans_data.product.name] += trans_data.quantity
-            for trans_data in products_2018:
-                if trans_data.product.name in dict_2016:
-                    dict_2018[trans_data.product.name] += trans_data.quantity
+                product_dict[trans_data.product.name][2] += trans_data.quantity
+        # if req_season != "冬季":
+        #     products_2016 = Transaction_product.objects.filter(transaction__date__year=2016, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
+        #     products_2017 = Transaction_product.objects.filter(transaction__date__year=2017, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
+        #     products_2018 = Transaction_product.objects.filter(transaction__date__year=2018, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
+        #     for trans_data in products_2016:
+        #         if trans_data.product.name in dict_2018:
+        #             dict_2016[trans_data.product.name] += trans_data.quantity
+        #     for trans_data in products_2017:
+        #         if trans_data.product.name in dict_2017:
+        #             dict_2017[trans_data.product.name] += trans_data.quantity
+        #     for trans_data in products_2018:
+        #         if trans_data.product.name in dict_2016:
+        #             dict_2018[trans_data.product.name] += trans_data.quantity
+        # elif req_season == "冬季":
+        #     products_2016 = Transaction_product.objects.filter(Q(transaction__date__year=2018) & (Q(transaction__date__month=12) | 
+        #     Q(transaction__date__month=1) | Q(transaction__date__month=2)))
+        #     products_2017 = Transaction_product.objects.filter(Q(transaction__date__year=2018) & (Q(transaction__date__month=12) | 
+        #     Q(transaction__date__month=1) | Q(transaction__date__month=2)))
+        #     products_2018 = Transaction_product.objects.filter(Q(transaction__date__year=2018) & (Q(transaction__date__month=12) | 
+        #     Q(transaction__date__month=1) | Q(transaction__date__month=2)))
+        #     for trans_data in products_2016:
+        #         if trans_data.product.name in dict_2018:
+        #             dict_2016[trans_data.product.name] += trans_data.quantity
+        #     for trans_data in products_2017:
+        #         if trans_data.product.name in dict_2017:
+        #             dict_2017[trans_data.product.name] += trans_data.quantity
+        #     for trans_data in products_2018:
+        #         if trans_data.product.name in dict_2016:
+        #             dict_2018[trans_data.product.name] += trans_data.quantity
         # uv_s_sold = 0
         # uv_auto_sold = 0
         # uv_manual_sold = 0
