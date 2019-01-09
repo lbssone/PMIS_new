@@ -80,6 +80,12 @@ class MemberSearch(View):
         target_dwelling = self.request.POST.get('target_dwelling')
         if target_age == 'all':
             members = Member.objects.all()
+        # if target_age == 'all':
+        #     members = Member.objects.filter(gender=target_gender, dwelling=target_dwelling)
+        # if target_gender == 'all':
+        #     members = Member.objects.filter(age=target_age, dwelling=target_dwelling)
+        # if target_dwelling == 'all':
+        #     members = Member.objects.filter(age=target_age, gender=target_gender)
         else:
             members = Member.objects.filter(age=target_age, gender=target_gender, dwelling=target_dwelling)
         return render(request, 'modules/member/membersearch.html',{'members':members})

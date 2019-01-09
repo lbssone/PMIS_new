@@ -10,7 +10,7 @@ class Transaction(models.Model):
     products = models.ManyToManyField(Product, through='Transaction_product')
 
     def __str__(self):
-        return '{} {}'.format(self.member.member_name, str(self.date))
+        return '{} {} {}'.format(self.member.member_name, str(self.date), str(self.total_price))
 
     @staticmethod
     def calculate_total_price(self):
@@ -37,7 +37,7 @@ class Transaction_product(models.Model):
     price = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.transaction.member.member_name + " " + str(self.transaction.date)
+        return self.transaction.member.member_name + " " + str(self.transaction.date)+ " ,$" +str(self.price)
     
     def save(self, *args, **kwargs):
         self.price = self.product.price * self.quantity
