@@ -41,7 +41,9 @@
     </div>
 </form>
 <h3>{{ req_year }} {{ req_season }}</h3>
-<table class="ui sortable celled table">
+
+<p>{{ dict_2018 }}</p>
+{% comment %} <table class="ui sortable celled table">
     <thead>
         <tr>
             <th>產品名稱</th>
@@ -86,7 +88,7 @@
             <td>{{ l_manual_sold }}</td>
         </tr>
     </tbody>
-</table>
+</table> {% endcomment %}
 
 {% comment %} <p>{{ uv_s_sold }}</p>
 <p>{{ uv_auto_sold }}</p>

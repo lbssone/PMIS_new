@@ -1,6 +1,7 @@
-// $(document).ready(function() {
-//     $('.ui.menu').menu();
-// });
+$(document).ready(function() {
+    $('.ui.menu').menu();
+});
+
 $('.ui .item').tab();
 
 $('.ui .item').on('click', function() {

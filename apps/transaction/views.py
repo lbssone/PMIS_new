@@ -30,59 +30,101 @@ class TransactionSeason(View):
         elif req_season == "冬季":
             month_start = 12
             month_end = 2
-        uv_s_sold = 0
-        uv_auto_sold = 0
-        uv_manual_sold = 0
-        wind_s_sold = 0
-        wind_auto_sold = 0
-        wind_manual_sold = 0
-        l_s_sold = 0
-        l_auto_sold = 0
-        l_manual_sold = 0
+            
+        dict_2016 = {
+            '抗UV直傘': 0, '抗UV自動摺傘': 0, '抗UV手開摺傘': 0, '防風直傘': 0, '防風自動摺傘': 0, '防風手開摺傘': 0, 
+            '輕量直傘': 0, '輕量自動摺傘': 0, '輕量手開摺傘': 0,
+        }
+        dict_2017 = {
+            '抗UV直傘': 0, '抗UV自動摺傘': 0, '抗UV手開摺傘': 0, '防風直傘': 0, '防風自動摺傘': 0, '防風手開摺傘': 0, 
+            '輕量直傘': 0, '輕量自動摺傘': 0, '輕量手開摺傘': 0,
+        }
+        dict_2018 = {
+            '抗UV直傘': 0, '抗UV自動摺傘': 0, '抗UV手開摺傘': 0, '防風直傘': 0, '防風自動摺傘': 0, '防風手開摺傘': 0, 
+            '輕量直傘': 0, '輕量自動摺傘': 0, '輕量手開摺傘': 0,
+        }
         if req_season != "冬季":
             products_2016 = Transaction_product.objects.filter(transaction__date__year=2016, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
             products_2017 = Transaction_product.objects.filter(transaction__date__year=2017, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
             products_2018 = Transaction_product.objects.filter(transaction__date__year=2018, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
+            for trans_data in products_2016:
+                if trans_data.product.name in dict_2018:
+                    dict_2016[trans_data.product.name] += trans_data.quantity
+            for trans_data in products_2017:
+                if trans_data.product.name in dict_2017:
+                    dict_2017[trans_data.product.name] += trans_data.quantity
             for trans_data in products_2018:
-                if trans_data.product.name == "抗UV直傘":
-                    uv_s_sold += trans_data.quantity
-                elif trans_data.product.name == "抗UV自動摺傘":
-                    uv_auto_sold += trans_data.quantity
-                elif trans_data.product.name == "抗UV手開摺傘":
-                    uv_manual_sold += trans_data.quantity
-                elif trans_data.product.name == "防風直傘":
-                    wind_s_sold += trans_data.quantity
-                elif trans_data.product.name == "防風自動摺傘":
-                    wind_auto_sold += trans_data.quantity
-                elif trans_data.product.name == "防風手開摺傘":
-                    wind_manual_sold += trans_data.quantity
-                elif trans_data.product.name == "輕量直傘":
-                    l_s_sold += trans_data.quantity
-                elif trans_data.product.name == "輕量自動摺傘":
-                    l_auto_sold += trans_data.quantity
-                elif trans_data.product.name == "輕量手開摺傘":
-                    l_manual_sold += trans_data.quantity
+                if trans_data.product.name in dict_2016:
+                    dict_2018[trans_data.product.name] += trans_data.quantity
         elif req_season == "冬季":
-            for trans_data in Transaction_product.objects.filter(Q(transaction__date__year=2018) & 
-            (Q(transaction__date__month=12) | Q(transaction__date__month=1) | Q(transaction__date__month=2))):
-                if trans_data.product.name == "抗UV直傘":
-                    uv_s_sold += trans_data.quantity
-                elif trans_data.product.name == "抗UV自動摺傘":
-                    uv_auto_sold += trans_data.quantity
-                elif trans_data.product.name == "抗UV手開摺傘":
-                    uv_manual_sold += trans_data.quantity
-                elif trans_data.product.name == "防風直傘":
-                    wind_s_sold += trans_data.quantity
-                elif trans_data.product.name == "防風自動摺傘":
-                    wind_auto_sold += trans_data.quantity
-                elif trans_data.product.name == "防風手開摺傘":
-                    wind_manual_sold += trans_data.quantity
-                elif trans_data.product.name == "輕量直傘":
-                    l_s_sold += trans_data.quantity
-                elif trans_data.product.name == "輕量自動摺傘":
-                    l_auto_sold += trans_data.quantity
-                elif trans_data.product.name == "輕量手開摺傘":
-                    l_manual_sold += trans_data.quantity
+            products_2016 = Transaction_product.objects.filter(Q(transaction__date__year=2018) & (Q(transaction__date__month=12) | 
+            Q(transaction__date__month=1) | Q(transaction__date__month=2)))
+            products_2017 = Transaction_product.objects.filter(Q(transaction__date__year=2018) & (Q(transaction__date__month=12) | 
+            Q(transaction__date__month=1) | Q(transaction__date__month=2)))
+            products_2018 = Transaction_product.objects.filter(Q(transaction__date__year=2018) & (Q(transaction__date__month=12) | 
+            Q(transaction__date__month=1) | Q(transaction__date__month=2)))
+            for trans_data in products_2016:
+                if trans_data.product.name in dict_2018:
+                    dict_2016[trans_data.product.name] += trans_data.quantity
+            for trans_data in products_2017:
+                if trans_data.product.name in dict_2017:
+                    dict_2017[trans_data.product.name] += trans_data.quantity
+            for trans_data in products_2018:
+                if trans_data.product.name in dict_2016:
+                    dict_2018[trans_data.product.name] += trans_data.quantity
+        # uv_s_sold = 0
+        # uv_auto_sold = 0
+        # uv_manual_sold = 0
+        # wind_s_sold = 0
+        # wind_auto_sold = 0
+        # wind_manual_sold = 0
+        # l_s_sold = 0
+        # l_auto_sold = 0
+        # l_manual_sold = 0
+        # if req_season != "冬季":
+        #     products_2016 = Transaction_product.objects.filter(transaction__date__year=2016, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
+        #     products_2017 = Transaction_product.objects.filter(transaction__date__year=2017, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
+        #     products_2018 = Transaction_product.objects.filter(transaction__date__year=2018, transaction__date__month__gte=month_start, transaction__date__month__lte=month_end)
+        #     for trans_data in products_2018:
+        #         if trans_data.product.name == "抗UV直傘":
+        #             uv_s_sold += trans_data.quantity
+        #         elif trans_data.product.name == "抗UV自動摺傘":
+        #             uv_auto_sold += trans_data.quantity
+        #         elif trans_data.product.name == "抗UV手開摺傘":
+        #             uv_manual_sold += trans_data.quantity
+        #         elif trans_data.product.name == "防風直傘":
+        #             wind_s_sold += trans_data.quantity
+        #         elif trans_data.product.name == "防風自動摺傘":
+        #             wind_auto_sold += trans_data.quantity
+        #         elif trans_data.product.name == "防風手開摺傘":
+        #             wind_manual_sold += trans_data.quantity
+        #         elif trans_data.product.name == "輕量直傘":
+        #             l_s_sold += trans_data.quantity
+        #         elif trans_data.product.name == "輕量自動摺傘":
+        #             l_auto_sold += trans_data.quantity
+        #         elif trans_data.product.name == "輕量手開摺傘":
+        #             l_manual_sold += trans_data.quantity
+        # elif req_season == "冬季":
+        #     for trans_data in Transaction_product.objects.filter(Q(transaction__date__year=2018) & 
+        #     (Q(transaction__date__month=12) | Q(transaction__date__month=1) | Q(transaction__date__month=2))):
+        #         if trans_data.product.name == "抗UV直傘":
+        #             uv_s_sold += trans_data.quantity
+        #         elif trans_data.product.name == "抗UV自動摺傘":
+        #             uv_auto_sold += trans_data.quantity
+        #         elif trans_data.product.name == "抗UV手開摺傘":
+        #             uv_manual_sold += trans_data.quantity
+        #         elif trans_data.product.name == "防風直傘":
+        #             wind_s_sold += trans_data.quantity
+        #         elif trans_data.product.name == "防風自動摺傘":
+        #             wind_auto_sold += trans_data.quantity
+        #         elif trans_data.product.name == "防風手開摺傘":
+        #             wind_manual_sold += trans_data.quantity
+        #         elif trans_data.product.name == "輕量直傘":
+        #             l_s_sold += trans_data.quantity
+        #         elif trans_data.product.name == "輕量自動摺傘":
+        #             l_auto_sold += trans_data.quantity
+        #         elif trans_data.product.name == "輕量手開摺傘":
+        #             l_manual_sold += trans_data.quantity
         return render(request, 'modules/transaction/transaction_season.html', locals())
 
 class TransactionChart(View):
@@ -126,7 +168,7 @@ class TransactionChart(View):
         # uv_au = {'name': '抗UV自動摺傘', 'data': [uv_auto_sold, 2], 'color': 'red',}
 
         chart = {
-            'chart': {'type': 'column', 'colors': 'Array.<Highcharts.ColorString>', 'backgroundColor': '#f4f7f6'},
+            'chart': {'type': 'column', 'colors': 'Array.<Highcharts.ColorString>', 'backgroundColor': 'rgba(0, 0, 0, 0)'},
             'title': {
                 'text': str(year) + '年 ' + str(month) + '月雨傘銷售分布',
                 'style': {
