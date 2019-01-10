@@ -10,6 +10,25 @@ from .models import Transaction, Transaction_product
 from apps.inventory.models import Product
 
 # Create your views here.
+class TransactionYear(View):
+    def get(self, request):
+        product_dict = {
+            '抗UV直傘': [0, 0, 0], '抗UV自動摺傘': [0, 0, 0], '抗UV手開摺傘': [0, 0, 0], '防風直傘': [0, 0, 0], 
+            '防風自動摺傘': [0, 0, 0], '防風手開摺傘': [0, 0, 0], '輕量直傘': [0, 0, 0], '輕量自動摺傘': [0, 0, 0], 
+            '輕量手開摺傘': [0, 0, 0],
+        }
+        products_2016 = Transaction_product.objects.filter(transaction__date__year=2016)
+        products_2017 = Transaction_product.objects.filter(transaction__date__year=2017)
+        products_2018 = Transaction_product.objects.filter(transaction__date__year=2018)
+        for trans_data in products_2016:
+            product_dict[trans_data.product.name][0] += trans_data.quantity
+        for trans_data in products_2017:
+            product_dict[trans_data.product.name][1] += trans_data.quantity
+        for trans_data in products_2018:
+            product_dict[trans_data.product.name][2] += trans_data.quantity
+        return render(request, 'modules/transaction/transaction_year.html', locals())
+
+
 class TransactionSeason(View):
     def get(self, request):
         return render(request, 'modules/transaction/transaction_season.html')
@@ -81,7 +100,6 @@ class TransactionMonth(View):
         for trans_data in products_2018:
             product_dict[trans_data.product.name][2] += trans_data.quantity
         return render(request, 'modules/transaction/transaction_month.html', locals())
-
 
 
 class TransactionChart(View):

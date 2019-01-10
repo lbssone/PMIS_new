@@ -37,7 +37,7 @@ class Transaction_product(models.Model):
     price = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.transaction.member.member_name + " " + str(self.transaction.date)
+        return self.transaction.member.member_name + " " + str(self.transaction.date) + self.product.name + "*" + str(self.quantity)
     
     def save(self, *args, **kwargs):
         self.price = self.product.price * self.quantity
