@@ -1,7 +1,7 @@
 {% extends 'base/layout.html' %}
 
 {% block main %}
-<h2>歷年銷售狀況</h2>
+<h2>歷年年銷售狀況</h2>
 
 <br>
 <form action="{% url 'transaction:season' %}" method="POST" class="ui form">{% csrf_token %}
