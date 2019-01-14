@@ -41,9 +41,13 @@ class ScheduleForm(View):
         return render(request, 'modules/inventory/schedule_form.html')
 
     def post(self, request):
-        get_um = self.request.POST.get('umbrella')
-        num = int(self.request.POST.get('num_of_umbrella'))
-        date = self.request.POST.get('date')
+        try: 
+            get_um = self.request.POST.get('umbrella')
+            num = int(self.request.POST.get('num_of_umbrella'))
+            date = self.request.POST.get('date')
+        except ValueError:
+            err_message = "資料不完全，請輸入完整資料。"
+            return render(request, 'modules/inventory/schedule_form.html', locals())
         date_1 = datetime.strptime(date, "%Y-%m-%d").date()
         umbrella = ""
         if get_um == "抗UV直傘":
