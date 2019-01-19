@@ -10,9 +10,9 @@
             <div class="ui horizontal divider"></div>
             {% for product in product_list %}
                 {% if product.inventory < product.level %}
-                    <p><a href="{% url 'inventory:product_detail' product.pk %}" style="color:red;">{{ product.name }}: {{ product.inventory }}</a></p>
+                    <p><a href="{% url 'inventory:product_update' product.pk %}" style="color:red;">{{ product.name }}: {{ product.inventory }}</a></p>
                 {% else %}
-                    <p><a href="{% url 'inventory:product_detail' product.pk %}">{{ product.name }}: {{ product.inventory }}</a></p>
+                    <p><a href="{% url 'inventory:product_update' product.pk %}">{{ product.name }}: {{ product.inventory }}</a></p>
                 {% endif %}
             {% endfor %}
         </div>

@@ -11,6 +11,7 @@
             存貨管理 <i class="dropdown icon"></i>
             <div class="menu">
                 <a class="item" href="{% url 'inventory:list' %}">存貨狀況</a>
+                <a class="item" href="{% url 'inventory:list' %}">存貨補充</a>
             </div>
         </div>
         <div class="ui simple dropdown item">
@@ -19,7 +20,7 @@
                 <a class="item" href="{% url 'transaction:year' %}">歷年年銷售狀況</a>
                 <a class="item" href="{% url 'transaction:season' %}">歷年季銷售狀況</a>
                 <a class="item" href="{% url 'transaction:month' %}">歷年月銷售狀況</a>
-                <a class="item" href="{% url 'transaction:chart' %}">月銷售圖表分析</a>
+                {% comment %} <a class="item" href="{% url 'transaction:chart' %}">月銷售圖表分析</a> {% endcomment %}
             </div>
         </div>
         <a class="item" href="{% url 'inventory:schedule_form' %}">生產排程</a>

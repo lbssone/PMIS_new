@@ -4,6 +4,7 @@
 <h2>歷年月銷售狀況</h2>
 
 <br>
+<p>請點選欲查詢月份：</p>
 <form action="{% url 'transaction:month' %}" method="POST" class="ui form">{% csrf_token %}
     <div class="fields">
         <div class="field">
@@ -44,7 +45,8 @@
         </div>
     </div>
 </form>
-{% if req_month %}
+<br>
+{% comment %} {% if req_month %}
 <h3>{{ req_month }}月</h3>
 <table class="ui sortable celled table">
     <thead>
@@ -66,63 +68,79 @@
     {% endfor %}
     </tbody>
 </table>
-{% endif %}
-{% comment %} <table class="ui sortable celled table">
-    <thead>
-        <tr>
-            <th>產品名稱</th>
-            <th class="sorted ascending">銷售數量</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>抗UV直傘</td>
-            <td>{{ uv_s_sold }}</td>
-        </tr>
-        <tr>
-            <td>抗UV自動摺傘</td>
-            <td>{{ uv_auto_sold }}</td>
-        </tr>
-        <tr>
-            <td>抗UV手開摺傘</td>
-            <td>{{ uv_manual_sold }}</td>
-        </tr>
-        <tr>
-            <td>防風直傘</td>
-            <td>{{ wind_s_sold }}</td>
-        </tr>
-        <tr>
-            <td>防風自動摺傘</td>
-            <td>{{ wind_auto_sold }}</td>
-        </tr>
-        <tr>
-            <td>防風手開摺傘</td>
-            <td>{{ wind_manual_sold }}</td>
-        </tr>
-        <tr>
-            <td>輕量直傘</td>
-            <td>{{ l_s_sold }}</td>
-        </tr>
-        <tr>
-            <td>輕量自動摺傘</td>
-            <td>{{ l_auto_sold }}</td>
-        </tr>
-        <tr>
-            <td>輕量手開摺傘</td>
-            <td>{{ l_manual_sold }}</td>
-        </tr>
-    </tbody>
-</table> {% endcomment %}
-
-{% comment %} <p>{{ uv_s_sold }}</p>
-<p>{{ uv_auto_sold }}</p>
-<p>{{ uv_manual_sold }}</p>
-<p>{{ wind_s_sold }}</p>
-<p>{{ wind_auto_sold }}</p>
-<p>{{ wind_manual_sold }}</p>
-<p>{{ l_s_sold }}</p>
-<p>{{ l_auto_sold }}</p>
-<p>{{ l_manual_sold }}</p> {% endcomment %}
+{% endif %} {% endcomment %}
+<div id="container"></div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column',
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+        },
+        title: {
+            text: '歷年{{ req_month }}月銷售狀況'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            categories: [
+                '2016',
+                '2017',
+                '2018',
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '銷售量'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y} 把</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: '抗UV直傘',
+            data: {{ product_dict.抗UV直傘 }}
+        }, {
+            name: '抗UV自動摺傘',
+            data: {{ product_dict.抗UV自動摺傘 }}
+        }, {
+            name: '抗UV手開摺傘',
+            data: {{ product_dict.抗UV手開摺傘 }}
+        }, {
+            name: '防風直傘',
+            data: {{ product_dict.防風直傘 }}
+        }, {
+            name: '防風自動摺傘',
+            data: {{ product_dict.防風自動摺傘 }}
+        }, {
+            name: '防風手開摺傘',
+            data: {{ product_dict.防風手開摺傘 }}
+        }, {
+            name: '輕量直傘',
+            data: {{ product_dict.輕量直傘 }}
+        }, {
+            name: '輕量自動摺傘',
+            data: {{ product_dict.輕量自動摺傘 }}
+        }, {
+            name: '輕量手開摺傘',
+            data: {{ product_dict.輕量手開摺傘 }}
+        },],
+    });
+</script>
 
 {% load static %}
 <script src="{% static 'js/dropdown.js' %}"></script>

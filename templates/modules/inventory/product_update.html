@@ -1,0 +1,12 @@
+{% extends 'base/layout.html' %}
+
+{% block main %}
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update" class="ui button">
+</form>
+
+{% load static %}
+<script src="{% static 'js/dropdown.js' %}"></script>
+
+{% endblock %}

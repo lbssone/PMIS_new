@@ -39,9 +39,13 @@
         subtitle: {
             text: ''
         },
-        {% comment %} xAxis: {
-        categories: ['2016', '2017', '2018']
-        }, {% endcomment %}
+        xAxis: {
+            categories: [
+                '2016',
+                '2017',
+                '2018',
+            ],
+        },
         yAxis: {
             title: {
                 text: '銷售量'
@@ -52,12 +56,17 @@
             align: 'right',
             verticalAlign: 'middle'
         },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">\u25CF</span><tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y} 把</b></td></tr>',
+        },
         plotOptions: {
             series: {
                 label: {
-                    connectorAllowed: false
+                    connectorAllowed: false,
                 },
-                pointStart: 2016
+                pointStart: 2016,
+                pointEnd: 2018,
             }
         },
         series: [{
@@ -91,7 +100,7 @@
         responsive: {
             rules: [{
                 condition: {
-                    maxWidth: 500
+                    maxWidth: 100
                 },
                 chartOptions: {
                     legend: {

@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.http import HttpResponse
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView
 from datetime import datetime, timedelta
 
 from .models import Product, Component, Material
@@ -34,6 +34,37 @@ class ProductDetail(DetailView):
     #     context = super(ProductDetail, self).get_context_data(**kwargs)
     #     context['components_required'] = Product.getComponents(self)
     #     return context
+
+
+class ProductUpdate(UpdateView):
+    model = Product
+    fields = ['inventory', 'level']
+    template_name = 'modules/inventory/product_update.html'
+
+    def get_success_url(self):
+        return reverse('inventory:list')
+    
+    class Meta:
+        model = Product
+        labels = {
+            "inventory": "存貨"
+        }
+
+
+class ComponentUpdate(UpdateView):
+    model = Component
+    fields = ['inventory', 'price']
+    template_name = 'modules/inventory/product_update.html'
+
+    def get_success_url(self):
+        return reverse('inventory:list')
+    
+    class Meta:
+        model = Product
+        labels = {
+            "inventory": "存貨"
+        }
+
 
 
 class ScheduleForm(View):
