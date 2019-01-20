@@ -6,6 +6,23 @@ body {
 	background-color: #f4f7f6!important;
 }
 
+img#index {
+    max-width: 100%;
+	max-height: 100%;
+	opacity: 1.0;
+	margin: 0 auto;
+}
+
+#cover {
+	max-width: 88%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+h1#h1-index {
+	margin-top: 10pt;
+}
+
 hr {
 	height: 1.5px;
 	color: lightgray;

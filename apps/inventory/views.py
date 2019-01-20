@@ -16,24 +16,12 @@ class InventoryList(TemplateView):
         context['component_list'] = Component.objects.all()
         context['material_list'] = Material.objects.all()
         return context
-    # model = Product, Component, Material
-
-    # def get(self, request):
-    #     product_list = Product.objects.all()
-    #     component_list = Component.objects.all()
-    #     material_list = Material.objects.all()
-    #     return render(request, 'modules/inventory/inventory.html', {'product_list': product_list, 'component_list': component_list, 'material_list': material_list})
 
 
-class ProductDetail(DetailView):
-    model = Product
-    template_name = 'modules/inventory/product_detail.html'
-    context_object_name = 'product'
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(ProductDetail, self).get_context_data(**kwargs)
-    #     context['components_required'] = Product.getComponents(self)
-    #     return context
+# class ProductDetail(DetailView):
+#     model = Product
+#     template_name = 'modules/inventory/product_detail.html'
+#     context_object_name = 'product'
 
 
 class ProductUpdate(UpdateView):
@@ -109,7 +97,6 @@ class ScheduleForm(View):
             component_diff = component_wanted - component.inventory
             produce_date = date_1 - timedelta(days=component.component_detail.lead_time)
             produce_date_str = str(date_1 - timedelta(days=component.component_detail.lead_time))
-            # component_tree_list.append([component.name, component.number_needed, component.weight, component_wanted, component.inventory, component_quan])
             component_tree_list.append([component, component_wanted, component_diff, produce_date_str])
             if component.required_material not in material_list:
                 material_list.append(component.required_material)
@@ -132,14 +119,6 @@ class ScheduleForm(View):
                     fabric += 0
                 fabric_q = fabric - Material.objects.get(name=component.required_material.name).inventory
                 fabric_date = str(produce_date - timedelta(days=Material.objects.get(name=component.required_material.name).material_detail.lead_time))
-            # if component.required_material.name == "防潑水傘布":
-            #     fabric += (component.weight * component_diff)
-            #     abs_fabric = abs(fabric)
-            #     fabric_q = fabric - Material.objects.get(name="防潑水傘布").inventory
-            #     fabric_date = str(produce_date - timedelta(days=Material.objects.get(name="防潑水傘布").material_detail.lead_time))
-        # plastic = plastic * num 
-        # frp = frp * num 
-        # fabric = fabric * num
         plastic_q = plastic - Material.objects.get(name="塑膠").inventory
         frp_q = frp - Material.objects.get(name="FRP").inventory
         plastic_date = str(min(plastic_date_lst) - timedelta(days=Material.objects.get(name="塑膠").material_detail.lead_time))

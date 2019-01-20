@@ -6,23 +6,6 @@
 <br>
 <form action="{% url 'transaction:season' %}" method="POST" class="ui form">{% csrf_token %}
     <div class="fields">
-        {% comment %} <div class="three wide field">
-            <select class="ui dropdown" name="year">
-                <option value="">請選擇年份</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
-            </select>
-        </div>
-        <div class="two wide field">  
-            <select class="ui dropdown" name="season">
-                <option value="">請選擇季節</option>
-                <option value="春季">春季</option>
-                <option value="夏季">夏季</option>
-                <option value="秋季">秋季</option>
-                <option value="冬季">冬季</option>
-            </select>  
-        </div> {% endcomment %}
         <div class="field">
             <button type="submit" name="season" class="ui green button" value="春季">春季</button>
         </div>
@@ -35,34 +18,9 @@
         <div class="field">
             <button type="submit" name="season" class="ui blue button" value="冬季">冬季</button> 
         </div>
-        {% comment %} <div class="field">    
-            <button type="submit" class="ui button">提交</button>
-        </div> {% endcomment %}
     </div>
 </form>
-{% comment %} {% if req_season %}
-<h3>{{ req_season }}</h3>
-<table class="ui sortable celled table">
-    <thead>
-        <tr>
-            <th>產品名稱</th>
-            <th class="sorted ascending">2016</th>
-            <th class="sorted ascending">2017</th>
-            <th class="sorted ascending">2018</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for key, values in product_dict.items %}
-        <tr>
-            <td>{{ key }}</td>
-            {% for v in values %}
-            <td>{{ v }}</td>
-            {% endfor %}
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-{% endif %} {% endcomment %}
+
 {% if req_season %}
 <h3>{{ req_season }}</h3>
 <div id="container"></div>

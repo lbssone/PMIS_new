@@ -33,7 +33,6 @@ class TransactionSeason(View):
     def get(self, request):
         return render(request, 'modules/transaction/transaction_season.html')
     def post(self, request):
-        # req_year = self.request.POST.get('year')
         req_season = self.request.POST.get('season')
         month_start = 0
         month_end = 0
@@ -139,9 +138,6 @@ class TransactionChart(View):
             elif trans_data.product.name == "輕量手開摺傘":
                 l_manual_sold += trans_data.quantity
 
-        # uv_s = {'name': '抗UV直傘', 'data': [uv_s_sold, 1], 'color': 'green',}
-        # uv_au = {'name': '抗UV自動摺傘', 'data': [uv_auto_sold, 2], 'color': 'red',}
-
         chart = {
             'chart': {'type': 'column', 'colors': 'Array.<Highcharts.ColorString>', 'backgroundColor': 'rgba(0, 0, 0, 0)'},
             'title': {
@@ -152,7 +148,6 @@ class TransactionChart(View):
             },
             'xAxis': {'categories': ['抗UV直傘', '抗UV自動摺傘', '抗UV手開摺傘', '防風直傘', '防風自動摺傘','防風手開摺傘',
             '輕量直傘', '輕量自動摺傘', '輕量手開摺傘']},
-            # 'series': [uv_s, uv_au],
             'series': [{ 
                 'name': '銷售量',
                 'data': [
@@ -179,49 +174,3 @@ class TransactionChart(View):
         dump = json.dumps(chart)
 
         return render(request, 'modules/transaction/transaction_chart.html', {'chart': dump})
-    
-
-    # def get(self, request):
-    #         dataset = Transaction_product.objects \
-    #         .values('product') \
-    #         .annotate(uv_s=Count('product', filter=Q(product__u_feature='抗UV', product__u_type='直傘')), 
-    #         uv_auto=Count('product', filter=Q(product__u_feature='抗UV', product__u_type='手開摺傘')))
-
-    #         categories = list()
-    #         straight = list()
-    #         auto = list()
-            
-    #         for entry in dataset:
-    #             categories.append(entry['product'])
-    #             straight.append(entry['uv_s'])
-    #             auto.append(entry['uv_auto'])
-
-    #         s = {
-    #             'name': '抗UV直傘',
-    #             'data': straight,
-    #             'color': 'green',
-    #         }
-
-    #         au = {
-    #             'name': '抗UV手開摺傘',
-    #             'data': auto,
-    #             'color': 'red',
-    #         }
-
-
-    #         chart = {
-    #             'chart': {'type': 'column'},
-    #             'title': {'text': '傘'},
-    #             'xAxis': {'categories': categories},
-    #             'series': [s, au],
-    #             'plotOptions': {
-    #                 'series': {
-    #                     'grouping': False,
-    #                 }
-    #             }
-    #         }
-
-
-    #         dump = json.dumps(chart)
-
-    #         return render(request, 'modules/member/member.html', {'chart': dump})
