@@ -38,33 +38,29 @@ class ProductDetail(DetailView):
 
 class ProductUpdate(UpdateView):
     model = Product
-    fields = ['inventory', 'level']
+    fields = ['inventory', 'safety_stock']
     template_name = 'modules/inventory/product_update.html'
 
     def get_success_url(self):
         return reverse('inventory:list')
-    
-    class Meta:
-        model = Product
-        labels = {
-            "inventory": "存貨"
-        }
 
 
 class ComponentUpdate(UpdateView):
     model = Component
-    fields = ['inventory', 'price']
-    template_name = 'modules/inventory/product_update.html'
+    fields = ['inventory']
+    template_name = 'modules/inventory/component_update.html'
 
     def get_success_url(self):
         return reverse('inventory:list')
-    
-    class Meta:
-        model = Product
-        labels = {
-            "inventory": "存貨"
-        }
 
+
+class MaterialUpdate(UpdateView):
+    model = Material
+    fields = ['inventory']
+    template_name = 'modules/inventory/material_update.html'
+
+    def get_success_url(self):
+        return reverse('inventory:list')
 
 
 class ScheduleForm(View):

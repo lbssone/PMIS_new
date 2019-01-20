@@ -9,7 +9,7 @@
             <h3 class="ui dividing header">Products</h3>
             <div class="ui horizontal divider"></div>
             {% for product in product_list %}
-                {% if product.inventory < product.level %}
+                {% if product.inventory < product.safety_stock %}
                     <p><a href="{% url 'inventory:product_update' product.pk %}" style="color:red;">{{ product.name }}: {{ product.inventory }}</a></p>
                 {% else %}
                     <p><a href="{% url 'inventory:product_update' product.pk %}">{{ product.name }}: {{ product.inventory }}</a></p>
@@ -20,7 +20,7 @@
             <h3 class="ui dividing header">Components</h3>
             <div class="ui horizontal divider"></div>
             {% for component in component_list %}
-                <p>{{ component.name }}: {{ component.inventory }}</p>
+                <p><a href="{% url 'inventory:component_update' component.pk %}">{{ component.name }}: {{ component.inventory }}</a></p>       
             {% endfor %}
         </div>
         <div class="column">
@@ -30,11 +30,11 @@
                 {% for material in material_list %}
                 <div class="row">
                     <div class="column">
-                        <p>{{ material.name }}: {{ material.inventory }}
+                        <p><a href="{% url 'inventory:material_update' material.pk %}">{{ material.name }}: {{ material.inventory }}</a></p>
                     </div>
                     <div class="column">
                     {% if material.inventory < material.material_detail.eoq %}
-                        <p><button class="ui red narrow button">已達再訂購點！</button></p>
+                        <p><a href="{% url 'inventory:material_update' material.pk %}"><button class="ui red narrow button">已達再訂購點！</button></a></p>
                     {% endif %}
                     </div>
                 </div>

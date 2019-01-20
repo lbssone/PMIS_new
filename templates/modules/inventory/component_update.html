@@ -1,7 +1,7 @@
 {% extends 'base/layout.html' %}
 
 {% block main %}
-<h2>存貨狀況更新：{{ product.name }}</h2>
+<h2>存貨狀況更新：{{ component.name }}</h2>
 <br>
 <form method="post" class="ui form">{% csrf_token %}
     <div class="inline fields">

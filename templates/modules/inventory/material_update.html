@@ -1,11 +1,11 @@
 {% extends 'base/layout.html' %}
 
 {% block main %}
-<h2>存貨狀況更新：{{ product.name }}</h2>
+<h2>存貨狀況更新：{{ material.name }}</h2>
 <br>
 <form method="post" class="ui form">{% csrf_token %}
     <div class="inline fields">
-        <div class="six wide field">
+        <div class="three wide field">
             {{ form.as_p }}
         </div>
     </div>

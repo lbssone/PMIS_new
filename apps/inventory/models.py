@@ -33,7 +33,7 @@ class Material(models.Model):
     number = models.PositiveIntegerField(blank=True, null=True)
     name = models.CharField(max_length=30, null=True)
     inventory = models.PositiveIntegerField(blank=True, null=True)
-    level =  models.PositiveIntegerField(blank=True, null=True)
+    safety_stock =  models.PositiveIntegerField(blank=True, null=True)
     material_detail = models.ForeignKey(Material_detail, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
@@ -67,7 +67,7 @@ class Component(models.Model):
     number_needed = models.PositiveIntegerField(blank=True, null=True)
     name = models.CharField(max_length=30, null=True)
     inventory = models.PositiveIntegerField(blank=True, null=True)
-    level =  models.PositiveIntegerField(blank=True, null=True)
+    safety_stock =  models.PositiveIntegerField(blank=True, null=True)
     required_material = models.ForeignKey(Material, on_delete=models.SET_NULL, null=True)
     weight = models.PositiveIntegerField(blank=True, null=True)
     component_detail = models.ForeignKey(Component_detail, on_delete=models.CASCADE, null=True, blank=True)
@@ -106,7 +106,7 @@ class Product(models.Model):
     )
     inventory = models.PositiveIntegerField(blank=True, null=True)
     price = models.PositiveIntegerField(blank=True, null=True)
-    level =  models.PositiveIntegerField(blank=True, null=True)
+    safety_stock =  models.PositiveIntegerField(blank=True, null=True)
     components_required = models.ManyToManyField(Component, blank=True)
 
     def __str__(self):
